@@ -17,7 +17,7 @@
       <ion-item valign="center">
         <ion-label position="floating">Cédula</ion-label>
         <ion-input type="text" label-placement="floating" formControlName="cedula" [counter]="true"
-          [maskito]="cedulaMask" [maskitoElement]="cedulaPredicate" [clearInput]="true"></ion-input>
+          [maskito]="identificationMask" [maskitoElement]="identificationPredicate" [clearInput]="true"></ion-input>
       </ion-item>
       <ion-text color="danger" *ngIf="loginForm.get('cedula')?.touched && loginForm.get('cedula')?.invalid">
         Cédula es requerida.
