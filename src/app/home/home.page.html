@@ -12,8 +12,9 @@
     </ion-card-header>
     <ion-card-content>
       <ion-row>
-        <ion-col>ID: 123456</ion-col>
-        <ion-col>Usuario: Juan Pérez</ion-col>
+        <ion-col size="3">ID: 123456</ion-col>
+        <ion-col size="6">Nombre: Juan Pérez</ion-col>
+        <ion-col size="3">Rol: ADMIN</ion-col>
       </ion-row>
       <ion-row>
         <ion-col size="12">
@@ -25,7 +26,7 @@
 
   <ion-list>
     <ion-list-header>
-      <h3>Grupos Asignados</h3>
+      <h3 style="color: rgb(83, 83, 83);">Grupos Asignados</h3>
     </ion-list-header>
     <ion-item>
       <ion-card style="width: 100%; background-color: rgb(246, 246, 248);">
@@ -58,5 +59,19 @@
     </ion-item>
 
   </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button color="secondary">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="tertiary">
+        <ion-icon name="person-add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="warning">
+        <ion-icon name="create-outline"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
 
 </ion-content>
