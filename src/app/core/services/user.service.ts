@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { GenericService } from './generic.service';
 import { IRegisterUserDTO } from '../dto/user/iregister-user.dto';
 import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
 	providedIn: 'root',
@@ -9,6 +10,10 @@ import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
 export class UserService extends GenericService {
 	getResourceUrl(): string {
 		return 'users';
+	}
+
+	constructor(protected override $http: HttpClient) {
+		super($http);
 	}
 
 	registerUser(payload: IRegisterUserDTO) {

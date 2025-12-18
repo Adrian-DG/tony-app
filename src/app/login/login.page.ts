@@ -15,7 +15,6 @@ import { MaskitoDirective } from '@maskito/angular';
 import { UserService } from '../core/services/user.service';
 import { ILoginUserDTO } from '../core/dto/user/ilogin-user.dto';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 
 @Component({
 	selector: 'app-login',
