@@ -4,6 +4,9 @@ import {
 	FormGroup,
 	ReactiveFormsModule,
 	Validators,
+	AsyncValidatorFn,
+	AbstractControl,
+	ValidationErrors,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import {
@@ -15,10 +18,12 @@ import { MaskitoDirective } from '@maskito/angular';
 import { UserService } from '../core/services/user.service';
 import { ILoginUserDTO } from '../core/dto/user/ilogin-user.dto';
 import { Router } from '@angular/router';
+import { Observable, of, timer } from 'rxjs';
+import { map, switchMap, catchError } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
-	imports: [IonicModule, ReactiveFormsModule, MaskitoDirective],
+	imports: [IonicModule, ReactiveFormsModule],
 	templateUrl: './login.page.html',
 	styleUrls: ['./login.page.scss'],
 	providers: [UserService],
@@ -31,56 +36,62 @@ export class LoginPage implements OnInit {
 		identification: {
 			required: 'Cédula es requerida',
 			minlength: 'Cédula debe tener al menos 11 caracteres',
+			maxlength: 'Cédula debe tener máximo 11 caracteres',
 			pattern: 'Formato de cédula inválido',
+			identificationInvalid: 'Cédula no existe en el sistema',
+			identificationUsed: 'Esta cédula ya está registrada',
 		},
 		phone_number: {
 			required: 'Número de teléfono es requerido',
 			minlength: 'Número de teléfono debe tener al menos 10 dígitos',
 			pattern: 'Formato de teléfono inválido',
+			phoneInvalid: 'Número de teléfono no válido',
+			phoneUsed: 'Este teléfono ya está registrado',
 		},
 	};
 
-	readonly identificationMask: MaskitoOptions = {
-		mask: [
-			/\d/,
-			/\d/,
-			/\d/,
-			'-',
-			/\d/,
-			/\d/,
-			/\d/,
-			/\d/,
-			/\d/,
-			/\d/,
-			/\d/,
-			'-',
-			/\d/,
-		],
-	};
+	// readonly identificationMask: MaskitoOptions = {
+	// 	mask: [
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		'-',
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		/\d/,
+	// 		'-',
+	// 		/\d/,
+	// 	],
+	// };
 
-	identificationMaskedValue = maskitoTransform(
-		'00000000000',
-		this.identificationMask
-	);
+	// Remove this line as it might cause conflicts
+	// identificationMaskedValue = maskitoTransform(
+	// 	'00000000000',
+	// 	this.identificationMask
+	// );
 
-	readonly identificationPredicate: MaskitoElementPredicate = async (
-		element
-	) => {
-		// Add a small delay to ensure the DOM is ready
-		await new Promise((resolve) => setTimeout(resolve, 100));
+	// readonly identificationPredicate: MaskitoElementPredicate = async (
+	// 	element
+	// ) => {
+	// 	// Add a small delay to ensure the DOM is ready
+	// 	await new Promise((resolve) => setTimeout(resolve, 100));
 
-		// Try to find the element by ID first, then fallback to other selectors
-		const inputElement =
-			document.getElementById('identification-input') ||
-			element.querySelector('input') ||
-			element.querySelector('ion-input input') ||
-			element.querySelector('[part="native"]');
+	// 	// Try to find the element by ID first, then fallback to other selectors
+	// 	const inputElement =
+	// 		document.getElementById('identification-input') ||
+	// 		element.querySelector('input') ||
+	// 		element.querySelector('ion-input input') ||
+	// 		element.querySelector('[part="native"]');
 
-		// Return the input element if found, otherwise return the original element
-		return (
-			(inputElement as HTMLInputElement) || (element as HTMLInputElement)
-		);
-	};
+	// 	// Return the input element if found, otherwise return the original element
+	// 	return (
+	// 		(inputElement as HTMLInputElement) || (element as HTMLInputElement)
+	// 	);
+	// };
 
 	constructor(
 		private fb: FormBuilder,
@@ -90,9 +101,21 @@ export class LoginPage implements OnInit {
 		this.loginForm = this.fb.group({
 			identification: [
 				'',
-				[Validators.required, Validators.minLength(11)],
+				[
+					Validators.required,
+					Validators.minLength(11),
+					Validators.maxLength(11),
+					Validators.pattern(/^\d{11}$/),
+				],
 			],
-			phone_number: ['', [Validators.required, Validators.minLength(10)]],
+			phone_number: [
+				'',
+				[
+					Validators.required,
+					Validators.minLength(10),
+					Validators.pattern(/^\d+$/),
+				],
+			],
 		});
 	}
 
@@ -105,18 +128,17 @@ export class LoginPage implements OnInit {
 
 		if (field && field.touched && field.invalid && field.errors) {
 			Object.keys(field.errors).forEach((errorType) => {
-				if (
+				const fieldErrorConfig =
 					this.fieldErrors[
 						fieldName as keyof typeof this.fieldErrors
-					][errorType as keyof typeof this.fieldErrors.identification]
-				) {
-					errors.push(
-						this.fieldErrors[
-							fieldName as keyof typeof this.fieldErrors
-						][
-							errorType as keyof typeof this.fieldErrors.identification
-						]
-					);
+					];
+				const errorMessage =
+					fieldErrorConfig[
+						errorType as keyof typeof fieldErrorConfig
+					];
+
+				if (errorMessage) {
+					errors.push(errorMessage);
 				}
 			});
 		}

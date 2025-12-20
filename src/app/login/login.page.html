@@ -17,8 +17,7 @@
       <ion-item valign="center">
         <ion-label position="floating">Cédula</ion-label>
         <ion-input id="identification-input" type="text" label-placement="floating" formControlName="identification"
-          [counter]="true" [maskito]="identificationMask" [maskitoElement]="identificationPredicate"
-          [clearInput]="true"></ion-input>
+          [counter]="true" [clearInput]="true"></ion-input>
       </ion-item>
       @for (error of getFieldErrors('identification'); track error) {
       <ion-text color="danger" class="error-message">{{ error }}</ion-text>
