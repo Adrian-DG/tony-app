@@ -1,8 +1,10 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, signal } from '@angular/core';
 import { GenericService } from './generic.service';
 import { IRegisterUserDTO } from '../dto/user/iregister-user.dto';
 import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
 import { HttpClient } from '@angular/common/http';
+import { Storage } from '@ionic/storage-angular';
+import { Router } from '@angular/router';
 
 @Injectable({
 	providedIn: 'root',
@@ -12,8 +14,26 @@ export class UserService extends GenericService {
 		return 'users';
 	}
 
-	constructor(protected override $http: HttpClient) {
+	private token$ = signal<string | null>(null);
+	isAuthenticated$ = computed(() => !!this.token$());
+
+	constructor(
+		protected override $http: HttpClient,
+		private $router: Router,
+		private readonly storage: Storage
+	) {
 		super($http);
+		this.initStorage();
+	}
+
+	private async initStorage() {
+		await this.storage.create();
+		this.token$.set(await this.storage.get('access_token'));
+	}
+
+	private async saveToken(token: string) {
+		await this.storage.set('access_token', token);
+		this.token$.set(token);
 	}
 
 	registerUser(payload: IRegisterUserDTO) {
@@ -21,6 +41,12 @@ export class UserService extends GenericService {
 	}
 
 	loginUser(payload: ILoginUserDTO) {
-		return this.$http.post(`${this.apiUrl}/login`, payload);
+		this.$http
+			.post(`${this.apiUrl}/login`, payload)
+			.subscribe((response) => {
+				const { access_token } = response as { access_token: string };
+				this.saveToken(access_token);
+				this.$router.navigate(['/home']);
+			});
 	}
 }

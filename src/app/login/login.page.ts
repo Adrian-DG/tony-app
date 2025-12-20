@@ -79,10 +79,7 @@ export class LoginPage implements OnInit {
 				identification: identification,
 				phone_number: phone_number,
 			};
-			this.userService.loginUser(payload).subscribe((response) => {
-				console.log('User logged in successfully:', response);
-				this.router.navigate(['/home']);
-			});
+			this.userService.loginUser(payload);
 		}
 	}
 }
