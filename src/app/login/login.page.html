@@ -16,22 +16,22 @@
 
       <ion-item valign="center">
         <ion-label position="floating">Cédula</ion-label>
-        <ion-input type="text" label-placement="floating" formControlName="identification" [counter]="true"
-          [maskito]="identificationMask" [maskitoElement]="identificationPredicate" [clearInput]="true"></ion-input>
+        <ion-input id="identification-input" type="text" label-placement="floating" formControlName="identification"
+          [counter]="true" [maskito]="identificationMask" [maskitoElement]="identificationPredicate"
+          [clearInput]="true"></ion-input>
       </ion-item>
-      <ion-text color="danger"
-        *ngIf="loginForm.get('identification')?.touched && loginForm.get('identification')?.invalid">
-        Cédula es requerida.
-      </ion-text>
+      @for (error of getFieldErrors('identification'); track error) {
+      <ion-text color="danger" class="error-message">{{ error }}</ion-text>
+      }
 
       <ion-item>
         <ion-label position="floating">Numero Telefono</ion-label>
         <ion-input type="text" label-placement="floating" formControlName="phone_number"
           [clearInput]="true"></ion-input>
       </ion-item>
-      <ion-text color="danger" *ngIf="loginForm.get('phone_number')?.touched && loginForm.get('phone_number')?.invalid">
-        Numero Telefono es requerido.
-      </ion-text>
+      @for (error of getFieldErrors('phone_number'); track error) {
+      <ion-text color="danger" class="error-message">{{ error }}</ion-text>
+      }
 
       <ion-button expand="full" type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</ion-button>
     </form>
