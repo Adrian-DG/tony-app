@@ -33,7 +33,13 @@ export class UserService extends GenericService {
 
 	private async initStorage() {
 		await this.storage.create();
-		this.token$.set(await this.storage.get('access_token'));
+		const token = await this.storage.get('access_token');
+		this.token$.set(token);
+
+		// If user is authenticated, redirect to home
+		if (token && !this.jwtHelper.isTokenExpired(token)) {
+			this.$router.navigate(['/home']);
+		}
 	}
 
 	private async saveToken(token: string) {

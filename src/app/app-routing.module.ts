@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { authenticationGuard } from './core/guards/authentication.guard';
+import { redirectAuthenticatedGuard } from './core/guards/redirect-authenticated.guard';
 import { homeExitGuard } from './core/guards/home-exit.guard';
 
 const routes: Routes = [
@@ -14,12 +15,14 @@ const routes: Routes = [
 		path: 'login',
 		loadChildren: () =>
 			import('./login/login.module').then((m) => m.LoginPageModule),
+		canActivate: [redirectAuthenticatedGuard],
 	},
 	{
 		path: '',
 		pathMatch: 'full',
 		loadChildren: () =>
 			import('./splash/splash.module').then((m) => m.SplashPageModule),
+		canActivate: [redirectAuthenticatedGuard],
 	},
 ];
 
