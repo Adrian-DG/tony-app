@@ -5,6 +5,7 @@ import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { Router } from '@angular/router';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 @Injectable({
 	providedIn: 'root',
@@ -15,12 +16,16 @@ export class UserService extends GenericService {
 	}
 
 	private token$ = signal<string | null>(null);
-	isAuthenticated$ = computed(() => !!this.token$());
+	isAuthenticated$ = computed(() => {
+		const token = this.token$();
+		return token != null && !this.jwtHelper.isTokenExpired(token);
+	});
 
 	constructor(
 		protected override $http: HttpClient,
 		private $router: Router,
-		private readonly storage: Storage
+		private readonly storage: Storage,
+		private readonly jwtHelper: JwtHelperService
 	) {
 		super($http);
 		this.initStorage();
@@ -48,5 +53,11 @@ export class UserService extends GenericService {
 				this.saveToken(access_token);
 				this.$router.navigate(['/home']);
 			});
+	}
+
+	redirectToLogin() {
+		this.storage.remove('access_token');
+		this.token$.set(null);
+		this.$router.navigate(['login']);
 	}
 }

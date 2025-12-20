@@ -26,7 +26,6 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 	imports: [IonicModule, ReactiveFormsModule],
 	templateUrl: './login.page.html',
 	styleUrls: ['./login.page.scss'],
-	providers: [UserService],
 })
 export class LoginPage implements OnInit {
 	loginForm: FormGroup;
