@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
@@ -8,7 +9,11 @@ import { IonicModule } from '@ionic/angular';
 	styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
-	constructor() {}
+	constructor(private $router: Router) {}
 
 	ngOnInit() {}
+
+	openGroupDetails() {
+		this.$router.navigate(['home', 1]);
+	}
 }

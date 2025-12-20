@@ -9,6 +9,11 @@ const routes: Routes = [
 		path: '',
 		component: HomePage,
 	},
+	{
+		path: ':id',
+		loadComponent: () =>
+			import('./detail/detail.component').then((m) => m.DetailComponent),
+	},
 ];
 
 @NgModule({

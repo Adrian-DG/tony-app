@@ -36,7 +36,12 @@ export function jwtOptionsFactory(storage: Storage) {
 		IonicModule.forRoot(),
 		AppRoutingModule,
 		HttpClientModule,
-		IonicStorageModule.forRoot(),
+		IonicStorageModule.forRoot({
+			driverOrder: ['indexeddb', 'sqlite', 'websql'],
+			name: '__mydb',
+			description: 'my Ionic storage database',
+			storeName: 'keyvaluepairs',
+		}),
 		JwtModule.forRoot({
 			jwtOptionsProvider: {
 				provide: JWT_OPTIONS,

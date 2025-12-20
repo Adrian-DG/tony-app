@@ -9,7 +9,6 @@ const routes: Routes = [
 		loadChildren: () =>
 			import('./home/home.module').then((m) => m.HomePageModule),
 		canActivate: [authenticationGuard],
-		canDeactivate: [homeExitGuard],
 	},
 	{
 		path: 'login',
