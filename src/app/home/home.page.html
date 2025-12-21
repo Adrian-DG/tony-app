@@ -35,12 +35,12 @@
     </ion-card-content>
   </ion-card>
 
-  @defer(when groups$()) {
   <ion-list>
     <ion-list-header>
       <h3 style="color: rgb(83, 83, 83);">Grupos Asignados</h3>
     </ion-list-header>
 
+    @defer (on timer(3000)) {
     @for(group of groups$(); track group.id) {
     <ion-item>
       <ion-card style="width: 100%; background-color: rgb(246, 246, 248);" (click)="openGroupDetails()">
@@ -71,36 +71,39 @@
       </ion-card>
     </ion-item>
     }
-  </ion-list>
-  }
-  @loading {
-  <ion-list>
-    <ion-list-header>
-      <h3 style="color: rgb(83, 83, 83);">Grupos Asignados</h3>
-    </ion-list-header>
-    @for(item of [1,2,3]; track item) {
+    }
+    @placeholder {
     <ion-item>
       <ion-card style="width: 100%; background-color: rgb(246, 246, 248);">
         <ion-card-content>
-          <ion-skeleton-text animated style="width: 60%; height: 24px;"></ion-skeleton-text>
-          <br>
+          <ion-row>
+            <ion-col size="12">
+              <ion-skeleton-text animated style="width: 60%; height: 20px;"></ion-skeleton-text>
+            </ion-col>
+          </ion-row>
           <ion-row>
             <ion-col>
-              <ion-skeleton-text animated style="width: 80%; height: 16px;"></ion-skeleton-text>
+              <ion-skeleton-text animated style="width: 40%; height: 15px;"></ion-skeleton-text>
             </ion-col>
-            <ion-col>
-              <ion-skeleton-text animated style="width: 40%; height: 16px;"></ion-skeleton-text>
+            <ion-col style="text-align: center;">
+              <ion-skeleton-text animated style="width: 30%; height: 15px;"></ion-skeleton-text>
             </ion-col>
-            <ion-col>
-              <ion-skeleton-text animated style="width: 40%; height: 16px;"></ion-skeleton-text>
+            <ion-col style="text-align: center;">
+              <ion-skeleton-text animated style="width: 30%; height: 15px;"></ion-skeleton-text>
             </ion-col>
           </ion-row>
         </ion-card-content>
       </ion-card>
     </ion-item>
     }
+    @error {
+    <ion-item>
+      <ion-text color="danger">Error al cargar los grupos. Inténtalo de nuevo más tarde.</ion-text>
+    </ion-item>
+    }
   </ion-list>
-  }
+
+
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
     <ion-fab-button color="secondary">
