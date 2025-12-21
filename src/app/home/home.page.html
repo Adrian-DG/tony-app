@@ -1,15 +1,12 @@
 <ion-header [translucent]="true">
-  <ion-toolbar color="primary">
-    <ion-title>home</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-title>Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
   <ion-card color="secondary">
-    <ion-card-header>
-      <ion-card-title>Bienvenido</ion-card-title>
-    </ion-card-header>
     <ion-card-content>
       @defer (when userData$()) {
       <ion-row>
@@ -19,6 +16,7 @@
           </ion-avatar>
         </ion-col>
         <ion-col size="8">
+          <h3>Bienvenido</h3>
           <h2 style="font-weight: 700;">{{ userData$()?.username }}</h2>
           <p style="color: rgb(238, 236, 236);">{{ userData$()?.role }}</p>
         </ion-col>
