@@ -1,11 +1,11 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Storage } from '@ionic/storage-angular';
 import { from, switchMap } from 'rxjs';
+import { StorageService } from '../services/storage.service';
 
 export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
-	const storage = inject(Storage);
-	return from(storage.get('access_token')).pipe(
+	const storage = inject(StorageService);
+	return from(storage.getItem('access_token')).pipe(
 		switchMap((token) => {
 			if (token) {
 				req = req.clone({

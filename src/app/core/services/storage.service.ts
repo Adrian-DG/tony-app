@@ -25,7 +25,7 @@ export class StorageService {
 		}
 	}
 
-	public async getItem(key: string): Promise<any> {
+	public async getItem(key: string): Promise<string | null> {
 		if (this.storage) {
 			return await this.storage.get(key);
 		}
