@@ -5,7 +5,8 @@ import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { StorageService } from './Storage.Service';
+import { IDecodedToken } from '../models/idecoded-token';
+import { StorageService } from './storage.service';
 
 @Injectable({
 	providedIn: 'root',
@@ -28,6 +29,15 @@ export class UserService extends GenericService {
 		const token = this._storage.getItem('access_token');
 		return token && !this.jwtHelper.isTokenExpired(token);
 	});
+
+	getUserData() {
+		const token = this._storage.getItem('access_token');
+		if (!token) return null;
+		const decodedToken = this.jwtHelper.decodeToken(
+			token
+		) as unknown as IDecodedToken;
+		return decodedToken;
+	}
 
 	registerUser(payload: IRegisterUserDTO) {
 		return this.$http.post(`${this.apiUrl}/register`, payload);
