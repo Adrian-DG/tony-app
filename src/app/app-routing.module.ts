@@ -15,14 +15,12 @@ const routes: Routes = [
 		path: 'login',
 		loadChildren: () =>
 			import('./login/login.module').then((m) => m.LoginPageModule),
-		canActivate: [redirectAuthenticatedGuard],
 	},
 	{
 		path: '',
 		pathMatch: 'full',
 		loadChildren: () =>
 			import('./splash/splash.module').then((m) => m.SplashPageModule),
-		canActivate: [redirectAuthenticatedGuard],
 	},
 ];
 

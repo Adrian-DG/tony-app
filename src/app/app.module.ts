@@ -16,6 +16,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
 import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage-angular';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
+import { Drivers } from '@ionic/storage';
 
 // Factory function to retrieve the token from storage
 export function jwtOptionsFactory(storage: Storage) {
@@ -37,7 +38,7 @@ export function jwtOptionsFactory(storage: Storage) {
 		AppRoutingModule,
 		HttpClientModule,
 		IonicStorageModule.forRoot({
-			driverOrder: ['indexeddb', 'sqlite', 'websql'],
+			driverOrder: [Drivers.IndexedDB, Drivers.LocalStorage],
 			name: '__mydb',
 			description: 'my Ionic storage database',
 			storeName: 'keyvaluepairs',
