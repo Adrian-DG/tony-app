@@ -11,22 +11,24 @@
       <ion-card-title>Bienvenido</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      @defer(when userData$()) {
+      @defer (when userData$()) {
       <ion-row>
-        <ion-col size="3">ID: {{ userData$()?.id }}</ion-col>
-        <ion-col size="6">Nombre: {{ userData$()?.username }}</ion-col>
-        <ion-col size="3">Rol: {{ userData$()?.role }}</ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="12">
-          <ion-button color="light" style="width: 100%;">Ver estadisticas</ion-button>
+        <ion-col size="4">
+          <ion-avatar style="width: 80px; height: 80px; margin-top: -1em;">
+            <ion-icon name="person-circle" style="font-size: 80px; color: rgb(247, 247, 247);"></ion-icon>
+          </ion-avatar>
+        </ion-col>
+        <ion-col size="8">
+          <h2 style="font-weight: 700;">{{ userData$()?.username }}</h2>
+          <p style="color: rgb(238, 236, 236);">{{ userData$()?.role }}</p>
         </ion-col>
       </ion-row>
       }
       @placeholder {
       <ion-row>
-        <ion-col size="12">
-          <ion-skeleton-text animated style="width: 100%; height: 20px;"></ion-skeleton-text>
+        <ion-col>
+          <ion-skeleton-text animated
+            style="width: 80px; height: 80px; border-radius: 50%; margin-top: -1em;"></ion-skeleton-text>
         </ion-col>
       </ion-row>
       }

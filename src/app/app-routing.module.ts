@@ -1,9 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { authenticationGuard } from './core/guards/authentication.guard';
-import { redirectAuthenticatedGuard } from './core/guards/redirect-authenticated.guard';
-import { homeExitGuard } from './core/guards/home-exit.guard';
-
 const routes: Routes = [
 	{
 		path: 'home',

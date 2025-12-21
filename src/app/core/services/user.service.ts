@@ -16,10 +16,8 @@ export class UserService extends GenericService {
 		return 'users';
 	}
 
-	private token$ = signal<string | null>(null);
-
-	isAuthenticated$ = computed(() => {
-		const token = this.token$();
+	isAuthenticated$ = computed(async () => {
+		const token = await this._storage.getItem('access_token');
 		return token != null && !this.jwtHelper.isTokenExpired(token);
 	});
 
@@ -30,25 +28,15 @@ export class UserService extends GenericService {
 		private readonly jwtHelper: JwtHelperService
 	) {
 		super($http);
-		this.initStorage();
 	}
 
-	private async initStorage() {
+	async getUserData(): Promise<IDecodedToken | null> {
 		const token = await this._storage.getItem('access_token');
-		this.token$.set(token);
-
-		// If user is authenticated, redirect to home
-		if (token && !this.jwtHelper.isTokenExpired(token)) {
-			this.$router.navigate(['/home']);
-		}
-	}
-
-	getUserData(): IDecodedToken | null {
-		const token = this.token$();
 		if (!token) return null;
 		const decodedToken = this.jwtHelper.decodeToken(
 			token
 		) as unknown as IDecodedToken;
+		console.log('Decoded Token:', decodedToken);
 		return decodedToken;
 	}
 
@@ -62,14 +50,12 @@ export class UserService extends GenericService {
 			.subscribe(async (response) => {
 				const { access_token } = response as { access_token: string };
 				await this._storage.setItem('access_token', access_token);
-				this.token$.set(access_token);
 				this.$router.navigate(['home']);
 			});
 	}
 
 	async redirectToLogin() {
 		await this._storage.removeItem('access_token');
-		this.token$.set(null);
 		this.$router.navigate(['login']);
 	}
 }
