@@ -33,7 +33,7 @@ export class HomePage implements OnInit, AfterViewInit {
 		});
 	}
 
-	openGroupDetails() {
+	onViewGroupDetail(item: IGroupListItemModel) {
 		this.$router.navigate(['home', 1]);
 	}
 }
