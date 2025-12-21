@@ -34,8 +34,13 @@
 .call-to-action {
 	width: 80%;
 	margin: 0 auto;
-	font-size: 1.5em;
-	font-weight: bold;
-	color: #333333;
 	text-align: center;
+	h1 {
+		color: #0163aa;
+		font-weight: bold;
+	}
+	p {
+		color: rgb(121, 121, 121);
+		font-weight: 600;
+	}
 }
