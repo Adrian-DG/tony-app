@@ -1,8 +1,9 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { IMemberListItemModel } from 'src/app/core/models/imember-list-item.model';
 import { MemberService } from 'src/app/core/services/member.service';
+import { MemberFormularyComponent } from '../member-formulary/member-formulary.component';
 
 @Component({
 	selector: 'app-detail',
@@ -17,7 +18,8 @@ export class DetailComponent implements OnInit {
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
-		private memberService: MemberService
+		private memberService: MemberService,
+		private _modalCtrl: ModalController
 	) {}
 
 	ngOnInit() {
@@ -35,5 +37,12 @@ export class DetailComponent implements OnInit {
 			.subscribe((members) => {
 				this.members$.set(members);
 			});
+	}
+
+	async openFormularyModal() {
+		const modal = await this._modalCtrl.create({
+			component: MemberFormularyComponent,
+		});
+		await modal.present();
 	}
 }
