@@ -1,9 +1,17 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+	Form,
+	FormControl,
+	FormGroup,
+	ReactiveFormsModule,
+	Validators,
+} from '@angular/forms';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { MemberService } from 'src/app/core/services/member.service';
 
 @Component({
 	selector: 'app-member-formulary',
-	imports: [IonicModule],
+	imports: [IonicModule, ReactiveFormsModule],
 	template: `
 		<ion-header>
 			<ion-toolbar color="secondary">
@@ -27,15 +35,28 @@ import { IonicModule, ModalController } from '@ionic/angular';
 				</ion-list-header>
 				<ion-item>
 					<ion-label position="floating">Cédula</ion-label>
-					<ion-input type="text"></ion-input>
+					<ion-input
+						type="text"
+						formControlName="identification"
+					></ion-input>
 				</ion-item>
 				<ion-item>
 					<ion-label position="floating">Nombre</ion-label>
-					<ion-input type="text"></ion-input>
+					<ion-input type="text" formControlName="name"></ion-input>
 				</ion-item>
 				<ion-item>
 					<ion-label position="floating">Apellido</ion-label>
-					<ion-input type="text"></ion-input>
+					<ion-input
+						type="text"
+						formControlName="last_name"
+					></ion-input>
+				</ion-item>
+				<ion-item>
+					<ion-label position="floating">Teléfono</ion-label>
+					<ion-input
+						type="text"
+						formControlName="phone_number"
+					></ion-input>
 				</ion-item>
 			</ion-list>
 			<ion-button
@@ -48,12 +69,36 @@ import { IonicModule, ModalController } from '@ionic/angular';
 	`,
 	styleUrl: './member-formulary.component.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [MemberService],
 })
-export class MemberFormularyComponent {
-	constructor(private _modalCtrl: ModalController) {}
+export class MemberFormularyComponent implements OnInit {
+	memberForm!: FormGroup;
+	constructor(
+		private _modalCtrl: ModalController,
+		private readonly memberService: MemberService
+	) {}
+
+	ngOnInit(): void {
+		this.memberForm = new FormGroup({
+			identification: new FormControl('', [
+				Validators.required,
+				Validators.pattern(/^\d{11}$/),
+			]),
+			name: new FormControl('', [Validators.required]),
+			last_name: new FormControl('', [Validators.required]),
+			phone_number: new FormControl('', [
+				Validators.required,
+				Validators.pattern(/^\d{10}$/),
+			]),
+		});
+	}
 
 	onConfirm() {
-		this._modalCtrl.dismiss();
+		if (this.memberForm.valid) {
+			this.memberService
+				.addMemberToGroup(this.memberForm.value)
+				.subscribe(() => this._modalCtrl.dismiss(true));
+		}
 	}
 
 	onCancel() {
