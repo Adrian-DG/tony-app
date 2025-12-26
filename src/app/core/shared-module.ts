@@ -6,6 +6,6 @@ import { UserService } from './services/user.service';
 @NgModule({
 	declarations: [],
 	imports: [CommonModule],
-	providers: [UserService],
+	providers: [],
 })
 export class SharedModule {}
