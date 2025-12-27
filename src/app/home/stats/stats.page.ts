@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
+import { BaseChartDirective } from 'ng2-charts';
 
 @Component({
 	selector: 'app-stats',
-	imports: [IonicModule],
+	imports: [IonicModule, BaseChartDirective],
 	template: `
 		<ion-header>
 			<ion-toolbar color="secondary">

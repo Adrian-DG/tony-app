@@ -17,6 +17,7 @@ import { JwtModule, JWT_OPTIONS } from '@auth0/angular-jwt';
 import { Storage } from '@ionic/storage-angular';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { Drivers } from '@ionic/storage';
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 
 // Factory function to retrieve the token from storage
 export function jwtOptionsFactory(storage: Storage) {
@@ -54,6 +55,7 @@ export function jwtOptionsFactory(storage: Storage) {
 	providers: [
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
 		provideHttpClient(withInterceptors([jwtInterceptor, errorInterceptor])),
+		provideCharts(withDefaultRegisterables()),
 	],
 	bootstrap: [AppComponent],
 })
