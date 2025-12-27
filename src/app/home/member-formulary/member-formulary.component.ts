@@ -6,8 +6,8 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { IonInputCustomEvent, InputInputEventDetail } from '@ionic/core';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs';
 import { ICreateMemberGroupDto } from 'src/app/core/dto/member/icreate-member-group.dto';
@@ -15,12 +15,14 @@ import { MemberService } from 'src/app/core/services/member.service';
 
 @Component({
 	selector: 'app-member-formulary',
-	imports: [IonicModule, ReactiveFormsModule],
+	imports: [IonicModule, ReactiveFormsModule, RouterModule],
 	template: `
 		<ion-header>
 			<ion-toolbar color="secondary">
 				<ion-buttons slot="start">
-					<ion-back-button></ion-back-button>
+					<ion-back-button
+						defaultHref="/home/{{ groupId }}"
+					></ion-back-button>
 				</ion-buttons>
 				<ion-title>Formulario Afiliación</ion-title>
 			</ion-toolbar>
@@ -220,6 +222,14 @@ import { MemberService } from 'src/app/core/services/member.service';
 				</ion-list>
 				<ion-button
 					expand="block"
+					color="light"
+					style="width: 80%; margin: auto"
+					(click)="onCancel()"
+				>
+					Cancelar
+				</ion-button>
+				<ion-button
+					expand="block"
 					color="secondary"
 					style="width: 80%; margin: 1em auto"
 					(click)="onConfirm()"
@@ -228,11 +238,7 @@ import { MemberService } from 'src/app/core/services/member.service';
 						identificationExists ||
 						isValidatingIdentification
 					"
-					>{{
-						identificationExists
-							? 'Cédula ya registrada'
-							: 'Confirmar Afiliación'
-					}}</ion-button
+					>Confirmar Afiliación</ion-button
 				>
 			</form>
 		</ion-content>
@@ -245,6 +251,7 @@ export class MemberFormularyComponent implements OnInit {
 	memberForm!: FormGroup;
 	identificationExists = false;
 	isValidatingIdentification = false;
+	groupId!: number;
 
 	// Validation states for real-time feedback
 	fieldValidationStates: {
@@ -259,8 +266,13 @@ export class MemberFormularyComponent implements OnInit {
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private readonly memberService: MemberService
-	) {}
+		private readonly memberService: MemberService,
+		private readonly _alertCtrl: AlertController
+	) {
+		this.groupId = parseInt(
+			this.activatedRoute.snapshot.paramMap.get('id')!
+		);
+	}
 
 	ngOnInit(): void {
 		this.memberForm = new FormGroup({
@@ -547,25 +559,44 @@ export class MemberFormularyComponent implements OnInit {
 			!this.identificationExists &&
 			!this.isValidatingIdentification
 		) {
-			const groupId = parseInt(
-				this.activatedRoute.snapshot.paramMap.get('id')!
-			);
-
-			if (!(groupId && groupId > 0)) throw new Error('Invalid group ID');
+			if (!(this.groupId && this.groupId > 0))
+				throw new Error('Invalid group ID');
 
 			const memberData: ICreateMemberGroupDto = {
 				...this.memberForm.value,
-				group_id: groupId,
+				group_id: this.groupId,
 			};
 
 			this.memberService.addMemberToGroup(memberData).subscribe(() => {
 				// Navigate back to the detail page after successful creation
-				this.router.navigate(['home', groupId], {
+				this.router.navigate(['home', this.groupId], {
 					relativeTo: this.activatedRoute,
 				});
 			});
 		}
 	}
 
-	onCancel() {}
+	private navigateToDetail() {
+		this.router.navigate(['home', this.groupId]);
+	}
+
+	onCancel() {
+		this._alertCtrl
+			.create({
+				header: 'Cancelar Afiliación',
+				message:
+					'¿Está seguro de que desea cancelar? Los datos ingresados se perderán.',
+				buttons: [
+					{
+						text: 'No',
+						role: 'cancel',
+					},
+					{
+						text: 'Sí, Cancelar',
+						handler: () => this.navigateToDetail(),
+					},
+				],
+			})
+			.then((alert) => alert.present());
+	}
 }
