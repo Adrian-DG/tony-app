@@ -54,6 +54,7 @@ Chart.register(
 		</ion-header>
 
 		<ion-content class="ion-padding">
+			@if (showChartStat$()) {
 			<div class="charts-container">
 				<!-- Groups by City Pie Chart with Deferrable View -->
 				@defer (on viewport) {
@@ -238,6 +239,39 @@ Chart.register(
 				</div>
 				}
 			</div>
+			} @else {
+			<div class="resume-data-container">
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>Resumen de Miembros</ion-card-title>
+					</ion-card-header>
+					<ion-card-content>
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								Provincia
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								Total
+							</ion-col>
+						</ion-row>
+						@for(item of membersByGroupRawData(); track item.name) {
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								{{ item.name }}
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								{{ item.total }}
+							</ion-col>
+						</ion-row>
+						}
+					</ion-card-content>
+				</ion-card>
+			</div>
+			}
 		</ion-content>
 	`,
 	styleUrl: './stats.page.css',
@@ -245,6 +279,8 @@ Chart.register(
 	providers: [StatsService],
 })
 export class StatsPage implements OnInit {
+	showChartStat$ = signal<boolean>(false);
+
 	// Chart Types
 	pieChartType = 'pie' as const;
 	barChartType = 'bar' as const;
