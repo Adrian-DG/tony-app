@@ -116,7 +116,7 @@ export class MemberFormularyComponent implements OnInit {
 
 			const memberData: ICreateMemberGroupDto = {
 				...this.memberForm.value,
-				groupId: groupId,
+				group_id: groupId,
 			};
 
 			this.memberService.addMemberToGroup(memberData).subscribe(() => {
