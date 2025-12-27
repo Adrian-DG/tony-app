@@ -40,6 +40,8 @@ export class DetailComponent implements OnInit {
 	}
 
 	openFormularyModal() {
-		this.router.navigate([this.groupId, 'member-formulary']);
+		this.router.navigate(['home', this.groupId, 'member-formulary'], {
+			relativeTo: this.activatedRoute.parent,
+		});
 	}
 }

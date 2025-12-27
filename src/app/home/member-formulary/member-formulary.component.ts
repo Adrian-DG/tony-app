@@ -6,8 +6,8 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { IonicModule, ModalController } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { ICreateMemberGroupDto } from 'src/app/core/dto/member/icreate-member-group.dto';
 import { MemberService } from 'src/app/core/services/member.service';
 
@@ -17,57 +17,66 @@ import { MemberService } from 'src/app/core/services/member.service';
 	template: `
 		<ion-header>
 			<ion-toolbar color="secondary">
+				<ion-buttons slot="start">
+					<ion-back-button></ion-back-button>
+				</ion-buttons>
 				<ion-title>Formulario Afiliación</ion-title>
 			</ion-toolbar>
 		</ion-header>
 		<ion-content class="ion-padding">
-			<ion-list style="width: 80%; margin: auto; margin-top: 30%;">
-				<ion-list-header>
-					<div class="column">
-						<ion-label>
-							<h1>Datos del Miembro</h1>
-						</ion-label>
-						<ion-label>
-							<p>
-								Por favor, complete el siguiente formulario para
-								agregar un nuevo miembro.
-							</p>
-						</ion-label>
-					</div>
-				</ion-list-header>
-				<ion-item>
-					<ion-label position="floating">Cédula</ion-label>
-					<ion-input
-						type="text"
-						formControlName="identification"
-					></ion-input>
-				</ion-item>
-				<ion-item>
-					<ion-label position="floating">Nombre</ion-label>
-					<ion-input type="text" formControlName="name"></ion-input>
-				</ion-item>
-				<ion-item>
-					<ion-label position="floating">Apellido</ion-label>
-					<ion-input
-						type="text"
-						formControlName="last_name"
-					></ion-input>
-				</ion-item>
-				<ion-item>
-					<ion-label position="floating">Teléfono</ion-label>
-					<ion-input
-						type="text"
-						formControlName="phone_number"
-					></ion-input>
-				</ion-item>
-			</ion-list>
-			<ion-button
-				expand="block"
-				color="secondary"
-				style="width: 80%; margin: 1em auto"
-				(click)="onConfirm()"
-				>Confirmar Afiliación</ion-button
-			>
+			<form [formGroup]="memberForm">
+				<ion-list style="width: 80%; margin: auto; margin-top: 30%;">
+					<ion-list-header>
+						<div class="column">
+							<ion-label>
+								<h1>Datos del Miembro</h1>
+							</ion-label>
+							<ion-label>
+								<p>
+									Por favor, complete el siguiente formulario
+									para agregar un nuevo miembro.
+								</p>
+							</ion-label>
+						</div>
+					</ion-list-header>
+					<ion-item>
+						<ion-label position="floating">Cédula</ion-label>
+						<ion-input
+							type="text"
+							formControlName="identification"
+						></ion-input>
+					</ion-item>
+					<ion-item>
+						<ion-label position="floating">Nombre</ion-label>
+						<ion-input
+							type="text"
+							formControlName="name"
+						></ion-input>
+					</ion-item>
+					<ion-item>
+						<ion-label position="floating">Apellido</ion-label>
+						<ion-input
+							type="text"
+							formControlName="last_name"
+						></ion-input>
+					</ion-item>
+					<ion-item>
+						<ion-label position="floating">Teléfono</ion-label>
+						<ion-input
+							type="text"
+							formControlName="phone_number"
+						></ion-input>
+					</ion-item>
+				</ion-list>
+				<ion-button
+					expand="block"
+					color="secondary"
+					style="width: 80%; margin: 1em auto"
+					(click)="onConfirm()"
+					[disabled]="!memberForm.valid"
+					>Confirmar Afiliación</ion-button
+				>
+			</form>
 		</ion-content>
 	`,
 	styleUrl: './member-formulary.component.css',
@@ -78,6 +87,7 @@ export class MemberFormularyComponent implements OnInit {
 	memberForm!: FormGroup;
 	constructor(
 		private activatedRoute: ActivatedRoute,
+		private router: Router,
 		private readonly memberService: MemberService
 	) {}
 
@@ -109,7 +119,12 @@ export class MemberFormularyComponent implements OnInit {
 				groupId: groupId,
 			};
 
-			this.memberService.addMemberToGroup(memberData).subscribe(() => {});
+			this.memberService.addMemberToGroup(memberData).subscribe(() => {
+				// Navigate back to the detail page after successful creation
+				this.router.navigate(['../'], {
+					relativeTo: this.activatedRoute,
+				});
+			});
 		}
 	}
 
