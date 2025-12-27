@@ -6,6 +6,7 @@ import { IDecodedToken } from '../core/models/idecoded-token';
 import { GroupService } from '../core/services/group.service';
 import { IGroupListItemModel } from '../core/models/igroup-list-item.model';
 import { CommonModule } from '@angular/common';
+import { UserRole } from '../core/enums/user-role.enum';
 
 @Component({
 	selector: 'app-home',
@@ -23,6 +24,13 @@ export class HomePage implements OnInit, AfterViewInit {
 		private groupService: GroupService
 	) {}
 
+	get userCanViewStats(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return [UserRole.ADMIN, UserRole.SUPERVISOR].includes(
+			userRole as UserRole
+		);
+	}
+
 	async ngOnInit() {
 		this.userData$.set(await this.userService.getUserData());
 	}
@@ -35,5 +43,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
 	onViewGroupDetail(item: IGroupListItemModel) {
 		this.$router.navigate(['home', 1]);
+	}
+
+	onViewStatistics() {
+		this.$router.navigate(['stats']);
 	}
 }

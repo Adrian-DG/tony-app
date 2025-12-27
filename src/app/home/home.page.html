@@ -21,6 +21,16 @@
           <p style="color: rgb(238, 236, 236);">{{ userData$()?.role }}</p>
         </ion-col>
       </ion-row>
+      @if (userCanViewStats) {
+      <ion-row style="margin-top: 1em; text-align: center;">
+        <ion-col size="12">
+          <ion-button color="light" fill="outline" expand="block" (click)="onViewStatistics()">
+            <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+            Ver Estadísticas
+          </ion-button>
+        </ion-col>
+      </ion-row>
+      }
       }
       @placeholder {
       <ion-row>
