@@ -26,4 +26,10 @@ export class MemberService extends GenericService {
 			params,
 		});
 	}
+
+	findIfMemberAlreadyExists(identification: string) {
+		return this.$http.get<boolean>(
+			`${this.apiUrl}/${identification}/validate-if-exists`
+		);
+	}
 }
