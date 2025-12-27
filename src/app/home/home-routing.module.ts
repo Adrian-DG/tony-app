@@ -12,6 +12,13 @@ const routes: Routes = [
 		loadComponent: () =>
 			import('./detail/detail.component').then((m) => m.DetailComponent),
 	},
+	{
+		path: ':id/member-formulary',
+		loadComponent: () =>
+			import('./member-formulary/member-formulary.component').then(
+				(m) => m.MemberFormularyComponent
+			),
+	},
 ];
 
 @NgModule({

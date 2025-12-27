@@ -6,7 +6,9 @@ import {
 	ReactiveFormsModule,
 	Validators,
 } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { IonicModule, ModalController } from '@ionic/angular';
+import { ICreateMemberGroupDto } from 'src/app/core/dto/member/icreate-member-group.dto';
 import { MemberService } from 'src/app/core/services/member.service';
 
 @Component({
@@ -63,6 +65,7 @@ import { MemberService } from 'src/app/core/services/member.service';
 				expand="block"
 				color="secondary"
 				style="width: 80%; margin: 1em auto"
+				(click)="onConfirm()"
 				>Confirmar Afiliación</ion-button
 			>
 		</ion-content>
@@ -74,7 +77,7 @@ import { MemberService } from 'src/app/core/services/member.service';
 export class MemberFormularyComponent implements OnInit {
 	memberForm!: FormGroup;
 	constructor(
-		private _modalCtrl: ModalController,
+		private activatedRoute: ActivatedRoute,
 		private readonly memberService: MemberService
 	) {}
 
@@ -95,13 +98,20 @@ export class MemberFormularyComponent implements OnInit {
 
 	onConfirm() {
 		if (this.memberForm.valid) {
-			this.memberService
-				.addMemberToGroup(this.memberForm.value)
-				.subscribe(() => this._modalCtrl.dismiss(true));
+			const groupId = parseInt(
+				this.activatedRoute.snapshot.paramMap.get('id')!
+			);
+
+			if (!(groupId && groupId > 0)) throw new Error('Invalid group ID');
+
+			const memberData: ICreateMemberGroupDto = {
+				...this.memberForm.value,
+				groupId: groupId,
+			};
+
+			this.memberService.addMemberToGroup(memberData).subscribe(() => {});
 		}
 	}
 
-	onCancel() {
-		this._modalCtrl.dismiss();
-	}
+	onCancel() {}
 }
