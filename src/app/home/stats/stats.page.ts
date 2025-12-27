@@ -42,6 +42,14 @@ Chart.register(
 					<ion-back-button defaultHref="/home"></ion-back-button>
 				</ion-buttons>
 				<ion-title>Estadísticas</ion-title>
+				<ion-buttons slot="end">
+					<ion-button (click)="refreshData()">
+						<ion-icon
+							slot="icon-only"
+							name="refresh-circle-outline"
+						></ion-icon>
+					</ion-button>
+				</ion-buttons>
 			</ion-toolbar>
 		</ion-header>
 
