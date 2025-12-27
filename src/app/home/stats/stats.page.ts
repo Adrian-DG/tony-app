@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
 import { BaseChartDirective } from 'ng2-charts';
+import { StatsService } from 'src/app/core/services/stats.service';
 
 @Component({
 	selector: 'app-stats',
@@ -15,12 +16,14 @@ import { BaseChartDirective } from 'ng2-charts';
 			</ion-toolbar>
 		</ion-header>
 
-		<ion-content class="ion-padding">
-			<h2>Página de Estadísticas</h2>
-			<p>Aquí se mostrarán las estadísticas relevantes.</p>
-		</ion-content>
+		<ion-content class="ion-padding"> </ion-content>
 	`,
 	styleUrl: './stats.page.css',
 	changeDetection: ChangeDetectionStrategy.OnPush,
+	providers: [StatsService],
 })
-export class StatsPage {}
+export class StatsPage implements OnInit {
+	constructor(private statsService: StatsService) {}
+
+	ngOnInit() {}
+}
