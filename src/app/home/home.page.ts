@@ -46,6 +46,6 @@ export class HomePage implements OnInit, AfterViewInit {
 	}
 
 	onViewStatistics() {
-		this.$router.navigate(['stats']);
+		this.$router.navigate(['home', 'stats']);
 	}
 }
