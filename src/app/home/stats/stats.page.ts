@@ -116,6 +116,67 @@ Chart.register(
 				</div>
 				}
 
+				<!-- Members by City Horizontal Bar Chart with Deferrable View -->
+				@defer (on viewport) {
+				<div class="chart-section">
+					<h2>Miembros por Ciudad</h2>
+					<div class="chart-wrapper">
+						@if (isMembersByCityLoaded()) {
+						<canvas
+							baseChart
+							[data]="membersByCityChartData()"
+							[type]="horizontalBarChartType"
+							[options]="horizontalBarChartOptions"
+						></canvas>
+						} @else if (isMembersByCityLoading()) {
+						<div class="loading-container">
+							<ion-spinner
+								name="circular"
+								color="primary"
+							></ion-spinner>
+							<p>Cargando datos de miembros por ciudad...</p>
+						</div>
+						} @else {
+						<ion-card>
+							<ion-card-content>
+								<ion-text color="danger">
+									<p>
+										Error al cargar datos de miembros por
+										ciudad
+									</p>
+								</ion-text>
+							</ion-card-content>
+						</ion-card>
+						}
+					</div>
+				</div>
+				} @placeholder {
+				<div class="chart-section">
+					<h2>Miembros por Ciudad (Horizontal)</h2>
+					<div class="chart-wrapper">
+						<div class="placeholder-content">
+							<ion-skeleton-text
+								animated
+								style="width: 100%; height: 250px;"
+							></ion-skeleton-text>
+						</div>
+					</div>
+				</div>
+				} @loading (minimum 500ms) {
+				<div class="chart-section">
+					<h2>Miembros por Ciudad (Horizontal)</h2>
+					<div class="chart-wrapper">
+						<div class="loading-container">
+							<ion-spinner
+								name="circular"
+								color="primary"
+							></ion-spinner>
+							<p>Inicializando gráfico...</p>
+						</div>
+					</div>
+				</div>
+				}
+
 				<!-- Members by Group Bar Chart with Deferrable View -->
 				@defer (on viewport) {
 				<div class="chart-section">
@@ -177,66 +238,6 @@ Chart.register(
 				</div>
 				}
 			</div>
-
-			<!-- Members by City Horizontal Bar Chart with Deferrable View -->
-			@defer (on viewport) {
-			<div class="chart-section">
-				<h2>Miembros por Ciudad (Horizontal)</h2>
-				<div class="chart-wrapper">
-					@if (isMembersByCityLoaded()) {
-					<canvas
-						baseChart
-						[data]="membersByCityChartData()"
-						[type]="horizontalBarChartType"
-						[options]="horizontalBarChartOptions"
-					></canvas>
-					} @else if (isMembersByCityLoading()) {
-					<div class="loading-container">
-						<ion-spinner
-							name="circular"
-							color="primary"
-						></ion-spinner>
-						<p>Cargando datos de miembros por ciudad...</p>
-					</div>
-					} @else {
-					<ion-card>
-						<ion-card-content>
-							<ion-text color="danger">
-								<p>
-									Error al cargar datos de miembros por ciudad
-								</p>
-							</ion-text>
-						</ion-card-content>
-					</ion-card>
-					}
-				</div>
-			</div>
-			} @placeholder {
-			<div class="chart-section">
-				<h2>Miembros por Ciudad (Horizontal)</h2>
-				<div class="chart-wrapper">
-					<div class="placeholder-content">
-						<ion-skeleton-text
-							animated
-							style="width: 100%; height: 250px;"
-						></ion-skeleton-text>
-					</div>
-				</div>
-			</div>
-			} @loading (minimum 500ms) {
-			<div class="chart-section">
-				<h2>Miembros por Ciudad (Horizontal)</h2>
-				<div class="chart-wrapper">
-					<div class="loading-container">
-						<ion-spinner
-							name="circular"
-							color="primary"
-						></ion-spinner>
-						<p>Inicializando gráfico...</p>
-					</div>
-				</div>
-			</div>
-			}
 		</ion-content>
 	`,
 	styleUrl: './stats.page.css',
@@ -264,7 +265,7 @@ export class StatsPage implements OnInit {
 	membersByGroupError = signal<string | null>(null);
 	membersByCityError = signal<string | null>(null);
 
-	colors: string[] = [
+	private colors: string[] = [
 		'#FF6384',
 		'#36A2EB',
 		'#FFCE56',
