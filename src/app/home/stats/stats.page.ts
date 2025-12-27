@@ -52,8 +52,20 @@ Chart.register(
 				</ion-buttons>
 			</ion-toolbar>
 		</ion-header>
-
 		<ion-content class="ion-padding">
+			<ion-row
+				style="display: flex; flex-direction: row; justify-content: flex-end; align-items: center;"
+			>
+				<ion-col size="10"></ion-col>
+				<ion-col size="auto">
+					<ion-checkbox
+						[checked]="showChartStat$()"
+						(ionChange)="showChartStat$.set($event.detail.checked)"
+						>Mostrar Gráficos</ion-checkbox
+					>
+				</ion-col>
+			</ion-row>
+
 			@if (showChartStat$()) {
 			<div class="charts-container">
 				<!-- Groups by City Pie Chart with Deferrable View -->
@@ -243,7 +255,67 @@ Chart.register(
 			<div class="resume-data-container">
 				<ion-card>
 					<ion-card-header>
-						<ion-card-title>Resumen de Miembros</ion-card-title>
+						<ion-card-title>Grupos por provincia</ion-card-title>
+					</ion-card-header>
+					<ion-card-content>
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								Provincia
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								Total
+							</ion-col>
+						</ion-row>
+						@for(item of groupsByCityRawData(); track item.name) {
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								{{ item.name }}
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								{{ item.total }}
+							</ion-col>
+						</ion-row>
+						}
+					</ion-card-content>
+				</ion-card>
+
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>Miembros por Ciudad</ion-card-title>
+					</ion-card-header>
+					<ion-card-content>
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								Ciudad
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								Total
+							</ion-col>
+						</ion-row>
+						@for(item of membersByCityRawData(); track item.name) {
+						<ion-row
+							style="border: 1px solid gainsboro;display: flex; justify-content: flex-start; align-items: center; padding: 8px 0;"
+						>
+							<ion-col size="8" style="text-align: center;">
+								{{ item.name }}
+							</ion-col>
+							<ion-col size="auto" style="text-align: center;">
+								{{ item.total }}
+							</ion-col>
+						</ion-row>
+						}
+					</ion-card-content>
+				</ion-card>
+
+				<ion-card>
+					<ion-card-header>
+						<ion-card-title>Miembros por Grupo</ion-card-title>
 					</ion-card-header>
 					<ion-card-content>
 						<ion-row

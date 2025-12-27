@@ -569,9 +569,7 @@ export class MemberFormularyComponent implements OnInit {
 
 			this.memberService.addMemberToGroup(memberData).subscribe(() => {
 				// Navigate back to the detail page after successful creation
-				this.router.navigate(['home', this.groupId], {
-					relativeTo: this.activatedRoute,
-				});
+				this.router.navigate(['home', this.groupId]);
 			});
 		}
 	}

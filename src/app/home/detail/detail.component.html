@@ -10,7 +10,9 @@
 
   <ion-list style="width: 100%;">
     <ion-list-header>
-      <ion-label>Miembros del grupo</ion-label>
+      <ion-label>
+        <h1 style="text-align: center; color: rgb(99, 98, 98);">Miembros del grupo</h1>
+      </ion-label>
     </ion-list-header>
     @defer(on timer(3000)){
     @for(member of members$(); track member.id){
