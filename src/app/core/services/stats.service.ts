@@ -26,4 +26,10 @@ export class StatsService extends GenericService {
 			`${this.apiUrl}/members-by-group`
 		);
 	}
+
+	getMembersByCity() {
+		return this.$http.get<IBaseStatModel[]>(
+			`${this.apiUrl}/members-by-city`
+		);
+	}
 }

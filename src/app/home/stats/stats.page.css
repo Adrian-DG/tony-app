@@ -86,24 +86,3 @@
 .placeholder-content ion-skeleton-text {
 	margin: auto;
 }
-
-ion-card {
-	margin: 0;
-	height: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-
-ion-card ion-card-content {
-	text-align: center;
-	width: 100%;
-}
-
-/* Dark mode support */
-@media (prefers-color-scheme: dark) {
-	.chart-wrapper {
-		background: var(--ion-color-step-50);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-	}
-}

@@ -177,6 +177,66 @@ Chart.register(
 				</div>
 				}
 			</div>
+
+			<!-- Members by City Horizontal Bar Chart with Deferrable View -->
+			@defer (on viewport) {
+			<div class="chart-section">
+				<h2>Miembros por Ciudad (Horizontal)</h2>
+				<div class="chart-wrapper">
+					@if (isMembersByCityLoaded()) {
+					<canvas
+						baseChart
+						[data]="membersByCityChartData()"
+						[type]="horizontalBarChartType"
+						[options]="horizontalBarChartOptions"
+					></canvas>
+					} @else if (isMembersByCityLoading()) {
+					<div class="loading-container">
+						<ion-spinner
+							name="circular"
+							color="primary"
+						></ion-spinner>
+						<p>Cargando datos de miembros por ciudad...</p>
+					</div>
+					} @else {
+					<ion-card>
+						<ion-card-content>
+							<ion-text color="danger">
+								<p>
+									Error al cargar datos de miembros por ciudad
+								</p>
+							</ion-text>
+						</ion-card-content>
+					</ion-card>
+					}
+				</div>
+			</div>
+			} @placeholder {
+			<div class="chart-section">
+				<h2>Miembros por Ciudad (Horizontal)</h2>
+				<div class="chart-wrapper">
+					<div class="placeholder-content">
+						<ion-skeleton-text
+							animated
+							style="width: 100%; height: 250px;"
+						></ion-skeleton-text>
+					</div>
+				</div>
+			</div>
+			} @loading (minimum 500ms) {
+			<div class="chart-section">
+				<h2>Miembros por Ciudad (Horizontal)</h2>
+				<div class="chart-wrapper">
+					<div class="loading-container">
+						<ion-spinner
+							name="circular"
+							color="primary"
+						></ion-spinner>
+						<p>Inicializando gráfico...</p>
+					</div>
+				</div>
+			</div>
+			}
 		</ion-content>
 	`,
 	styleUrl: './stats.page.css',
@@ -187,18 +247,33 @@ export class StatsPage implements OnInit {
 	// Chart Types
 	pieChartType = 'pie' as const;
 	barChartType = 'bar' as const;
+	horizontalBarChartType = 'bar' as const;
 
 	// Raw data signals
 	groupsByCityRawData = signal<IBaseStatModel[]>([]);
 	membersByGroupRawData = signal<IBaseStatModel[]>([]);
+	membersByCityRawData = signal<IBaseStatModel[]>([]);
 
 	// Loading state signals
 	isGroupsByCityLoading = signal<boolean>(false);
 	isMembersByGroupLoading = signal<boolean>(false);
+	isMembersByCityLoading = signal<boolean>(false);
 
 	// Error state signals
 	groupsByCityError = signal<string | null>(null);
 	membersByGroupError = signal<string | null>(null);
+	membersByCityError = signal<string | null>(null);
+
+	colors: string[] = [
+		'#FF6384',
+		'#36A2EB',
+		'#FFCE56',
+		'#4BC0C0',
+		'#9966FF',
+		'#FF9F40',
+		'#FF8C00',
+		'#C9CBCF',
+	];
 
 	// Computed signals for loaded states
 	isGroupsByCityLoaded = computed(
@@ -215,6 +290,18 @@ export class StatsPage implements OnInit {
 			!this.membersByGroupError()
 	);
 
+	isMembersByCityLoaded = computed(
+		() =>
+			this.membersByCityRawData().length > 0 &&
+			!this.isMembersByCityLoading() &&
+			!this.membersByCityError()
+	);
+
+	// Computed signal for total members
+	totalMembers = computed(() =>
+		this.membersByGroupRawData().reduce((sum, item) => sum + item.total, 0)
+	);
+
 	// Computed chart data signals
 	groupsByCityChartData = computed<ChartData<'pie'>>(() => {
 		const data = this.groupsByCityRawData();
@@ -227,26 +314,8 @@ export class StatsPage implements OnInit {
 			datasets: [
 				{
 					data: data.map((item) => item.total),
-					backgroundColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56',
-						'#4BC0C0',
-						'#9966FF',
-						'#FF9F40',
-						'#FF8C00',
-						'#C9CBCF',
-					],
-					borderColor: [
-						'#FF6384',
-						'#36A2EB',
-						'#FFCE56',
-						'#4BC0C0',
-						'#9966FF',
-						'#FF9F40',
-						'#FF8C00',
-						'#C9CBCF',
-					],
+					backgroundColor: this.colors,
+					borderColor: this.colors,
 					borderWidth: 2,
 					hoverOffset: 4,
 				},
@@ -266,8 +335,30 @@ export class StatsPage implements OnInit {
 				{
 					label: 'Miembros',
 					data: data.map((item) => item.total),
-					backgroundColor: 'rgba(54, 162, 235, 0.6)',
-					borderColor: 'rgba(54, 162, 235, 1)',
+					backgroundColor: this.colors,
+					borderColor: this.colors,
+					borderWidth: 2,
+					borderRadius: 4,
+					borderSkipped: false,
+				},
+			],
+		};
+	});
+
+	membersByCityChartData = computed<ChartData<'bar'>>(() => {
+		const data = this.membersByCityRawData();
+		if (data.length === 0) {
+			return { labels: [], datasets: [] };
+		}
+
+		return {
+			labels: data.map((item) => item.name),
+			datasets: [
+				{
+					label: 'Miembros por Ciudad',
+					data: data.map((item) => item.total),
+					backgroundColor: this.colors,
+					borderColor: this.colors,
 					borderWidth: 2,
 					borderRadius: 4,
 					borderSkipped: false,
@@ -339,6 +430,42 @@ export class StatsPage implements OnInit {
 		},
 	};
 
+	horizontalBarChartOptions: ChartConfiguration<'bar'>['options'] = {
+		responsive: true,
+		maintainAspectRatio: false,
+		indexAxis: 'y' as const, // This makes it horizontal
+		plugins: {
+			legend: {
+				display: false,
+			},
+			tooltip: {
+				callbacks: {
+					label: (context) => {
+						return `Miembros: ${context.parsed.x}`;
+					},
+				},
+			},
+		},
+		scales: {
+			x: {
+				title: {
+					display: true,
+					text: 'Número de Miembros',
+				},
+				beginAtZero: true,
+				ticks: {
+					stepSize: 1,
+				},
+			},
+			y: {
+				title: {
+					display: true,
+					text: 'Ciudades',
+				},
+			},
+		},
+	};
+
 	constructor(private statsService: StatsService) {}
 
 	ngOnInit() {
@@ -351,6 +478,7 @@ export class StatsPage implements OnInit {
 	private loadChartsData(): void {
 		this.loadGroupsByCityChart();
 		this.loadMembersByGroupChart();
+		this.loadMembersByCityChart();
 	}
 
 	/**
@@ -393,6 +521,28 @@ export class StatsPage implements OnInit {
 					'Error al cargar datos de miembros por grupo'
 				);
 				this.isMembersByGroupLoading.set(false);
+			},
+		});
+	}
+
+	/**
+	 * Load Members by City data using signals
+	 */
+	private loadMembersByCityChart(): void {
+		this.isMembersByCityLoading.set(true);
+		this.membersByCityError.set(null);
+
+		this.statsService.getMembersByCity().subscribe({
+			next: (data: IBaseStatModel[]) => {
+				this.membersByCityRawData.set(data);
+				this.isMembersByCityLoading.set(false);
+			},
+			error: (error) => {
+				console.error('Error loading members by city data:', error);
+				this.membersByCityError.set(
+					'Error al cargar datos de miembros por ciudad'
+				);
+				this.isMembersByCityLoading.set(false);
 			},
 		});
 	}
