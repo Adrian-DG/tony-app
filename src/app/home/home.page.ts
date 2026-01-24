@@ -8,7 +8,7 @@ import { IGroupListItemModel } from '../core/models/igroup-list-item.model';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '../core/enums/user-role.enum';
 import { GroupFormularyComponent } from './group-formulary/group-formulary.component';
-import { UserFormularyComponent } from './user-formulary.component/user-formulary.component';
+import { UserFormularyComponent } from './user-formulary/user-formulary.component';
 
 @Component({
 	selector: 'app-home',
