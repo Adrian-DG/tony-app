@@ -13,6 +13,7 @@ import { IUserAssignGroupModel } from 'src/app/core/models/iuser-assign-group.mo
 import { UserService } from 'src/app/core/services/user.service';
 import { IGroupListItemModel } from 'src/app/core/models/igroup-list-item.model';
 import { GroupService } from 'src/app/core/services/group.service';
+import { SelectableGroupListComponent } from '../components/selectable-group-list/selectable-group-list.component';
 
 @Component({
 	selector: 'app-user-group-form.component',
@@ -120,7 +121,12 @@ import { GroupService } from 'src/app/core/services/group.service';
 										{{ userGroupInfo$()?.last_name }}
 									</h2>
 								</div>
-								<ion-button expand="block">
+								<ion-button
+									expand="block"
+									size="small"
+									class="add-group-button"
+									(click)="addToGroup()"
+								>
 									<ion-icon
 										name="add"
 										slot="start"
@@ -256,13 +262,60 @@ export class UserGroupFormComponent {
 		}
 	}
 
-	getGroups() {
+	async addToGroup() {
+		const modal = await this._modalCtrl.create({
+			component: SelectableGroupListComponent,
+			componentProps: {
+				userId: this.userGroupInfo$()?.id,
+				userGroupIds:
+					this.userGroupInfo$()?.assigned_groups.map((g) =>
+						Number(g.id),
+					) || [],
+			},
+			breakpoints: [0, 0.5, 0.8, 1],
+			initialBreakpoint: 1,
+		});
+
+		await modal.present();
+
+		const modalData = (await modal.onDidDismiss()).data;
+
+		console.log('Modal Data:', modalData);
+
+		if (modalData && modalData.hasChanges) {
+			this.updateUserGroup(modalData.selectedGroupIds);
+		}
+	}
+
+	updateUserGroup(selectedGroupIds: number[]): void {
 		this.groupService
-			.getAllGroups({
-				search: '',
+			.addUserToGroups({
+				user_id: this.userGroupInfo$()?.id!,
+				group_ids: selectedGroupIds,
 			})
-			.subscribe((groups) => {
-				this.groups$.set(groups);
+			.subscribe({
+				next: async () => {
+					const alert = await this._alertCtrl.create({
+						header: 'Éxito',
+						message: '¡Asignaciones actualizadas con éxito!',
+						buttons: ['OK'],
+					});
+					await alert.present();
+					await alert.onDidDismiss();
+
+					// Refrescar la información del usuario y sus grupos asignados
+					this.searchUser();
+				},
+				error: async (error) => {
+					console.error('Error updating user groups:', error);
+					const alert = await this._alertCtrl.create({
+						header: 'Error',
+						message:
+							'No se pudieron actualizar las asignaciones. Intenta de nuevo.',
+						buttons: ['OK'],
+					});
+					await alert.present();
+				},
 			});
 	}
 }
