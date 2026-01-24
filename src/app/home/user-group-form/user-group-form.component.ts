@@ -11,6 +11,8 @@ import { AlertController, IonicModule, ModalController } from '@ionic/angular';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 import { IUserAssignGroupModel } from 'src/app/core/models/iuser-assign-group.model';
 import { UserService } from 'src/app/core/services/user.service';
+import { IGroupListItemModel } from 'src/app/core/models/igroup-list-item.model';
+import { GroupService } from 'src/app/core/services/group.service';
 
 @Component({
 	selector: 'app-user-group-form.component',
@@ -118,6 +120,13 @@ import { UserService } from 'src/app/core/services/user.service';
 										{{ userGroupInfo$()?.last_name }}
 									</h2>
 								</div>
+								<ion-button expand="block">
+									<ion-icon
+										name="add"
+										slot="start"
+									></ion-icon>
+									Agregar a Grupo
+								</ion-button>
 							</div>
 
 							<div class="groups-section">
@@ -195,7 +204,7 @@ import { UserService } from 'src/app/core/services/user.service';
 	`,
 	styleUrls: ['./user-group-form.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [UserService],
+	providers: [UserService, GroupService],
 })
 export class UserGroupFormComponent {
 	userFilterControl = new FormControl<string | null>(null, [
@@ -203,9 +212,11 @@ export class UserGroupFormComponent {
 		Validators.pattern('^[0-9]{10,11}$'),
 	]);
 	userGroupInfo$ = signal<IUserAssignGroupModel | null>(null);
+	groups$ = signal<IGroupListItemModel[]>([]);
 
 	constructor(
 		private userService: UserService,
+		private groupService: GroupService,
 		private $router: Router,
 		private _alertCtrl: AlertController,
 		private _modalCtrl: ModalController,
@@ -243,5 +254,15 @@ export class UserGroupFormComponent {
 				},
 			});
 		}
+	}
+
+	getGroups() {
+		this.groupService
+			.getAllGroups({
+				search: '',
+			})
+			.subscribe((groups) => {
+				this.groups$.set(groups);
+			});
 	}
 }
