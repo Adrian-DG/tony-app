@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, ModalController } from '@ionic/angular';
 import { UserService } from '../core/services/user.service';
 import { IDecodedToken } from '../core/models/idecoded-token';
 import { GroupService } from '../core/services/group.service';
 import { IGroupListItemModel } from '../core/models/igroup-list-item.model';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '../core/enums/user-role.enum';
+import { GroupFormularyComponent } from './group-formulary/group-formulary.component';
 
 @Component({
 	selector: 'app-home',
@@ -22,6 +23,7 @@ export class HomePage implements OnInit, AfterViewInit {
 		private $router: Router,
 		private userService: UserService,
 		private groupService: GroupService,
+		private _modalCtrl: ModalController,
 	) {}
 
 	get userCanViewStats(): boolean {
@@ -47,5 +49,25 @@ export class HomePage implements OnInit, AfterViewInit {
 
 	onViewStatistics() {
 		this.$router.navigate(['home', 'stats']);
+	}
+
+	async onCreateGroup() {
+		const modal = await this._modalCtrl.create({
+			component: GroupFormularyComponent,
+			breakpoints: [0, 0.5, 0.8, 1],
+			initialBreakpoint: 0.9,
+		});
+
+		await modal.present();
+
+		modal.onDidDismiss().then(() => {
+			this.groupService.getAllGroups({}).subscribe((groups) => {
+				this.groups$.set(groups);
+			});
+		});
+	}
+
+	onCreateUser() {
+		this.$router.navigate(['home', 'create-user']);
 	}
 }

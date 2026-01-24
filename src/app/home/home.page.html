@@ -101,10 +101,10 @@
     </ion-fab-button>
     <ion-fab-list side="top">
       <ion-fab-button color="tertiary">
-        <ion-icon name="person-add"></ion-icon>
+        <ion-icon name="person-add" (click)="onCreateUser()"></ion-icon>
       </ion-fab-button>
       <ion-fab-button color="warning">
-        <ion-icon name="create-outline" [routerLink]="['create-group']"></ion-icon>
+        <ion-icon name="create-outline" (click)="onCreateGroup()"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>
