@@ -21,6 +21,7 @@
 
 .content-container {
 	padding: 20px;
+	padding-bottom: 140px; // Space for FAB with extra clearance
 	max-width: 600px;
 	margin: 0 auto;
 }
@@ -107,9 +108,12 @@
 .groups-section {
 	background: white;
 	border-radius: 12px;
-	padding: 25px 20px;
+	padding: 25px 20px 20px 20px;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 	border: 1px solid rgba(150, 150, 150, 0.1);
+	margin-bottom: 20px;
+	overflow-y: auto;
+	max-height: 80dvh;
 }
 
 .section-header {
@@ -138,238 +142,242 @@
 	display: flex;
 	flex-direction: column;
 	gap: 15px;
-}
+	position: relative;
 
-// Group Cards
-.group-card {
-	background: rgb(246, 246, 248);
-	border-radius: 8px;
-	padding: 16px;
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	border: 1px solid rgba(150, 150, 150, 0.1);
-	transition: all 0.3s ease;
-
-	&:hover {
-		transform: translateY(-2px);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-		border-color: rgba(var(--ion-color-secondary-rgb), 0.3);
-	}
-
-	&.skeleton-card {
-		&:hover {
-			transform: none;
-			box-shadow: none;
-			border-color: rgba(150, 150, 150, 0.1);
-		}
-	}
-}
-
-.group-info {
-	flex: 1;
-	min-width: 0;
-}
-
-.group-header {
-	display: flex;
-	align-items: center;
-}
-
-.group-icon {
-	font-size: 2.5rem;
-	color: var(--ion-color-secondary);
-	margin-right: 15px;
-	flex-shrink: 0;
-}
-
-.skeleton-group-icon {
-	width: 40px;
-	height: 40px;
-	border-radius: 50%;
-	margin-right: 15px;
-}
-
-.group-details {
-	flex: 1;
-	min-width: 0;
-}
-
-.group-name {
-	margin: 0 0 6px 0;
-	font-size: 1.1rem;
-	font-weight: 700;
-	color: rgb(83, 83, 83);
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-}
-
-.group-city {
-	margin: 0;
-	font-size: 0.9rem;
-	color: rgb(150, 150, 150);
-	display: flex;
-	align-items: center;
-	font-weight: 500;
-}
-
-.location-icon {
-	font-size: 0.9rem;
-	margin-right: 5px;
-	color: var(--ion-color-secondary);
-}
-
-// Group Actions
-.group-actions {
-	margin-left: 15px;
-	flex-shrink: 0;
-}
-
-.action-button {
-	--color: rgb(150, 150, 150);
-	--background: transparent;
-	--border-radius: 8px;
-	margin: 0;
-
-	&:hover {
-		--color: var(--ion-color-secondary);
-		--background: rgba(var(--ion-color-secondary-rgb), 0.1);
-	}
-}
-
-.action-icon {
-	font-size: 1.2rem;
-}
-
-// Error Card
-.error-card {
-	background: rgba(var(--ion-color-danger-rgb), 0.1);
-	border-radius: 8px;
-	padding: 20px;
-	text-align: center;
-	border: 1px solid rgba(var(--ion-color-danger-rgb), 0.2);
-}
-
-.error-icon {
-	font-size: 2rem;
-	color: var(--ion-color-danger);
-	margin-bottom: 10px;
-}
-
-.error-text {
-	margin: 0;
-	color: var(--ion-color-danger);
-	font-weight: 500;
-}
-
-// FAB Styles
-.fab-container {
-	.main-fab {
-		--box-shadow: 0 4px 16px rgba(var(--ion-color-secondary-rgb), 0.4);
-
-		&:hover {
-			--box-shadow: 0 6px 20px rgba(var(--ion-color-secondary-rgb), 0.6);
-		}
-	}
-
-	.sub-fab {
-		--box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-		&:hover {
-			--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-			transform: scale(1.05);
-		}
-	}
-}
-
-// Responsive Design
-@media (max-width: 480px) {
-	.content-container {
-		padding: 15px;
-	}
-
-	.welcome-card {
-		padding: 20px 15px;
-		margin-bottom: 20px;
-	}
-
-	.user-info {
-		margin-bottom: 15px;
-	}
-
-	.avatar-section {
-		margin-right: 15px;
-	}
-
-	.user-avatar {
-		font-size: 60px;
-		padding: 8px;
-	}
-
-	.username {
-		font-size: 1.3rem;
-	}
-
-	.groups-section {
-		padding: 20px 15px;
-	}
-
+	// Group Cards
 	.group-card {
-		padding: 14px;
+		background: rgb(246, 246, 248);
+		border-radius: 8px;
+		padding: 16px;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		border: 1px solid rgba(150, 150, 150, 0.1);
+		transition: all 0.3s ease;
+
+		&:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+			border-color: rgba(var(--ion-color-secondary-rgb), 0.3);
+		}
+
+		&.skeleton-card {
+			&:hover {
+				transform: none;
+				box-shadow: none;
+				border-color: rgba(150, 150, 150, 0.1);
+			}
+		}
+	}
+
+	.group-info {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.group-header {
+		display: flex;
+		align-items: center;
 	}
 
 	.group-icon {
-		font-size: 2rem;
-		margin-right: 12px;
+		font-size: 2.5rem;
+		color: var(--ion-color-secondary);
+		margin-right: 15px;
+		flex-shrink: 0;
+	}
+
+	.skeleton-group-icon {
+		width: 40px;
+		height: 40px;
+		border-radius: 50%;
+		margin-right: 15px;
+	}
+
+	.group-details {
+		flex: 1;
+		min-width: 0;
 	}
 
 	.group-name {
-		font-size: 1rem;
+		margin: 0 0 6px 0;
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: rgb(83, 83, 83);
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
 	}
 
 	.group-city {
-		font-size: 0.85rem;
+		margin: 0;
+		font-size: 0.9rem;
+		color: rgb(150, 150, 150);
+		display: flex;
+		align-items: center;
+		font-weight: 500;
 	}
-}
 
-// Animations
-@keyframes slideInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
+	.location-icon {
+		font-size: 0.9rem;
+		margin-right: 5px;
+		color: var(--ion-color-secondary);
 	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
 
-.welcome-card {
-	animation: slideInUp 0.6s ease-out;
-}
+	// Group Actions
+	.group-actions {
+		margin-left: 15px;
+		flex-shrink: 0;
+	}
 
-.groups-section {
-	animation: slideInUp 0.6s ease-out;
-	animation-delay: 0.1s;
-}
+	.action-button {
+		--color: rgb(150, 150, 150);
+		--background: transparent;
+		--border-radius: 8px;
+		margin: 0;
 
-.group-card {
-	animation: slideInUp 0.4s ease-out;
+		&:hover {
+			--color: var(--ion-color-secondary);
+			--background: rgba(var(--ion-color-secondary-rgb), 0.1);
+		}
+	}
 
-	&:nth-child(1) {
-		animation-delay: 0.1s;
+	.action-icon {
+		font-size: 1.2rem;
 	}
-	&:nth-child(2) {
-		animation-delay: 0.2s;
+
+	// Error Card
+	.error-card {
+		background: rgba(var(--ion-color-danger-rgb), 0.1);
+		border-radius: 8px;
+		padding: 20px;
+		text-align: center;
+		border: 1px solid rgba(var(--ion-color-danger-rgb), 0.2);
 	}
-	&:nth-child(3) {
-		animation-delay: 0.3s;
+
+	.error-icon {
+		font-size: 2rem;
+		color: var(--ion-color-danger);
+		margin-bottom: 10px;
 	}
-	&:nth-child(4) {
-		animation-delay: 0.4s;
+
+	.error-text {
+		margin: 0;
+		color: var(--ion-color-danger);
+		font-weight: 500;
 	}
-	&:nth-child(5) {
-		animation-delay: 0.5s;
+
+	// FAB Styles
+	.fab-container {
+		z-index: 1000;
+		position: fixed;
+
+		.main-fab {
+			--box-shadow: 0 6px 20px rgba(var(--ion-color-secondary-rgb), 0.4);
+			transition: all 0.3s ease;
+
+			&:hover {
+				--box-shadow: 0 8px 25px
+					rgba(var(--ion-color-secondary-rgb), 0.6);
+				transform: scale(1.05);
+			}
+		}
+
+		.sub-fab {
+			--box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+			transition: all 0.3s ease;
+
+			&:hover {
+				--box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+			}
+		}
+
+		// Responsive Design
+		@media (max-width: 480px) {
+			.content-container {
+				padding: 15px;
+				padding-bottom: 120px; // Space for FAB on mobile
+				margin-bottom: 20px;
+			}
+
+			.user-info {
+				margin-bottom: 15px;
+			}
+
+			.avatar-section {
+				margin-right: 15px;
+			}
+
+			.user-avatar {
+				font-size: 60px;
+				padding: 8px;
+			}
+
+			.username {
+				font-size: 1.3rem;
+			}
+
+			.groups-section {
+				padding: 20px 15px;
+			}
+
+			.group-card {
+				padding: 14px;
+			}
+
+			.group-icon {
+				font-size: 2rem;
+				margin-right: 12px;
+			}
+
+			.group-name {
+				font-size: 1rem;
+			}
+
+			.group-city {
+				font-size: 0.85rem;
+			}
+		}
+
+		// Animations
+		@keyframes slideInUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.welcome-card {
+			animation: slideInUp 0.6s ease-out;
+		}
+
+		.groups-section {
+			animation: slideInUp 0.6s ease-out;
+			animation-delay: 0.1s;
+		}
+
+		.group-card {
+			animation: slideInUp 0.4s ease-out;
+
+			&:nth-child(1) {
+				animation-delay: 0.1s;
+			}
+			&:nth-child(2) {
+				animation-delay: 0.2s;
+			}
+			&:nth-child(3) {
+				animation-delay: 0.3s;
+			}
+			&:nth-child(4) {
+				animation-delay: 0.4s;
+			}
+			&:nth-child(5) {
+				animation-delay: 0.5s;
+			}
+		}
 	}
 }
