@@ -2,9 +2,27 @@
   <ion-toolbar color="secondary" class="header-toolbar">
     <ion-title class="header-title">Inicio</ion-title>
     <ion-buttons slot="end">
-      <ion-button class="settings-button">
+      <ion-button id="options-menu" fill="clear" class="settings-button" title="Opciones">
         <ion-icon name="ellipsis-vertical-outline"></ion-icon>
       </ion-button>
+      <ion-popover trigger="options-menu" triggerAction="click" showBackdrop="true">
+        <ng-template>
+          <ion-content>
+            <ion-list lines="none">
+              <ion-item-divider>
+                <ion-label>Acciones Disponibles</ion-label>
+              </ion-item-divider>
+              <ion-item button detail="false">
+                <ion-icon name="person-add-outline" slot="start" color="primary"></ion-icon>
+                <ion-label>
+                  <h3>Asignar Usuario</h3>
+                  <p>Agregar usuario a un grupo</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-content>
+        </ng-template>
+      </ion-popover>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
