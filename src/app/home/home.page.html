@@ -1,109 +1,111 @@
-<ion-header [translucent]="true">
-  <ion-toolbar color="secondary">
-    <ion-title>Inicio</ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="secondary" class="header-toolbar">
+    <ion-title class="header-title">Inicio</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-
-  <ion-card color="secondary">
-    <ion-card-content>
+<ion-content class="home-content">
+  <div class="content-container">
+    <div class="welcome-card">
       @defer (when userData$()) {
-      <ion-row>
-        <ion-col size="4">
-          <ion-avatar style="width: 80px; height: 80px; margin-top: -1em;">
-            <ion-icon name="person-circle" style="font-size: 80px; color: rgb(247, 247, 247);"></ion-icon>
-          </ion-avatar>
-        </ion-col>
-        <ion-col size="8">
-          <h3>Bienvenido</h3>
-          <h2 style="font-weight: 700;">{{ userData$()?.username }}</h2>
-          <p style="color: rgb(238, 236, 236);">{{ userData$()?.role }}</p>
-        </ion-col>
-      </ion-row>
+      <div class="user-info">
+        <div class="avatar-section">
+          <ion-icon name="person-circle" class="user-avatar"></ion-icon>
+        </div>
+        <div class="user-details">
+          <p class="greeting-text">Bienvenido</p>
+          <h2 class="username">{{ userData$()?.username }}</h2>
+          <p class="user-role">{{ userData$()?.role }}</p>
+        </div>
+      </div>
       @if (userCanViewStats) {
-      <ion-row style="margin-top: 1em; text-align: center;">
-        <ion-col size="12">
-          <ion-button color="light" fill="outline" expand="block" (click)="onViewStatistics()">
-            <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
-            Ver Estadísticas
-          </ion-button>
-        </ion-col>
-      </ion-row>
+      <div class="stats-button-container">
+        <ion-button color="light" fill="outline" expand="block" class="stats-button" (click)="onViewStatistics()">
+          <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+          Ver Estadísticas
+        </ion-button>
+      </div>
       }
       }
       @placeholder {
-      <ion-row>
-        <ion-col>
-          <ion-skeleton-text animated
-            style="width: 80px; height: 80px; border-radius: 50%; margin-top: -1em;"></ion-skeleton-text>
-        </ion-col>
-      </ion-row>
+      <div class="user-info">
+        <div class="avatar-section">
+          <ion-skeleton-text animated class="skeleton-avatar"></ion-skeleton-text>
+        </div>
+        <div class="user-details">
+          <ion-skeleton-text animated style="width: 60%; height: 20px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 80%; height: 24px;"></ion-skeleton-text>
+          <ion-skeleton-text animated style="width: 40%; height: 16px;"></ion-skeleton-text>
+        </div>
+      </div>
       }
-    </ion-card-content>
-  </ion-card>
+    </div>
 
-  <ion-list>
-    <ion-list-header>
-      <h3 style="color: rgb(83, 83, 83);">Grupos Asignados</h3>
-    </ion-list-header>
+    <div class="groups-section">
+      <div class="section-header">
+        <ion-icon name="people-outline" class="section-icon"></ion-icon>
+        <h3 class="section-title">Grupos Asignados</h3>
+      </div>
 
-    @defer (on timer(3000)) {
-    @for(group of groups$(); track group.id) {
-    <ion-item>
-      <ion-card style="width: 100%; background-color: rgb(246, 246, 248);">
-        <ion-card-content>
-          <ion-row>
-            <ion-col size="10">
-              <h2 style="font-weight: 700;">{{ group.name }}</h2>
-              <ion-text color="medium">{{ group.city }}</ion-text>
-            </ion-col>
-            <ion-col size="2" style="display: flex; justify-content: center; align-items: center;">
-              <ion-button color="light" fill="clear" size="small" (click)="onViewGroupDetail(group)">
-                <ion-icon name="eye-outline" style="font-size: 24px; color: rgb(150, 150, 150);"></ion-icon>
-              </ion-button>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-    }
-    }
-    @placeholder {
-    <ion-item>
-      <ion-card style="width: 100%; background-color: rgb(246, 246, 248);">
-        <ion-card-content>
-          <ion-row>
-            <ion-col size="10">
-              <ion-skeleton-text animated style="width: 60%; height: 20px;"></ion-skeleton-text>
-              <ion-skeleton-text animated style="width: 40%; height: 15px;"></ion-skeleton-text>
-            </ion-col>
-            <ion-col size="2" style="display: flex; justify-content: center; align-items: center;">
-              <ion-skeleton-text animated style="width: 30px; height: 30px; border-radius: 50%;"></ion-skeleton-text>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-    }
-    @error {
-    <ion-item>
-      <ion-text color="danger">Error al cargar los grupos. Inténtalo de nuevo más tarde.</ion-text>
-    </ion-item>
-    }
-  </ion-list>
+      <div class="groups-container">
+        @defer (on timer(3000)) {
+        @for(group of groups$(); track group.id) {
+        <div class="group-card">
+          <div class="group-info">
+            <div class="group-header">
+              <ion-icon name="people-circle-outline" class="group-icon"></ion-icon>
+              <div class="group-details">
+                <h2 class="group-name">{{ group.name }}</h2>
+                <p class="group-city">
+                  <ion-icon name="location-outline" class="location-icon"></ion-icon>
+                  {{ group.city }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-button fill="clear" size="small" class="action-button" (click)="onViewGroupDetail(group)">
+              <ion-icon name="eye-outline" class="action-icon"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+        }
+        }
+        @placeholder {
+        <div class="group-card skeleton-card">
+          <div class="group-info">
+            <div class="group-header">
+              <ion-skeleton-text animated class="skeleton-group-icon"></ion-skeleton-text>
+              <div class="group-details">
+                <ion-skeleton-text animated style="width: 70%; height: 20px; margin-bottom: 8px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 50%; height: 16px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 50%;"></ion-skeleton-text>
+          </div>
+        </div>
+        }
+        @error {
+        <div class="error-card">
+          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+          <p class="error-text">Error al cargar los grupos. Inténtalo de nuevo más tarde.</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
 
-
-
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button color="secondary">
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-container">
+    <ion-fab-button color="secondary" class="main-fab">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="tertiary">
+      <ion-fab-button color="tertiary" class="sub-fab">
         <ion-icon name="person-add" (click)="onCreateUser()"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="warning">
+      <ion-fab-button color="warning" class="sub-fab">
         <ion-icon name="create-outline" (click)="onCreateGroup()"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
