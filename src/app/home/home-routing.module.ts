@@ -22,6 +22,7 @@ const routes: Routes = [
 		loadComponent: () =>
 			import('./detail/detail.component').then((m) => m.DetailComponent),
 		title: 'Detalles del Grupo',
+		data: { group_name: '', city_name: '' },
 	},
 	{
 		path: ':id/member-formulary',

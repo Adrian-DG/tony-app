@@ -45,7 +45,9 @@ export class HomePage implements OnInit, AfterViewInit {
 	}
 
 	onViewGroupDetail(item: IGroupListItemModel) {
-		this.$router.navigate(['home', item.id]);
+		this.$router.navigate(['home', item.id], {
+			state: { group_name: item.name, city_name: item.city },
+		});
 	}
 
 	onViewStatistics() {

@@ -1,72 +1,102 @@
-<ion-header>
-  <ion-toolbar color="secondary">
+<ion-header class="ion-no-border">
+  <ion-toolbar color="secondary" class="header-toolbar">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home"></ion-back-button>
+      <ion-back-button defaultHref="/home" class="back-button"></ion-back-button>
     </ion-buttons>
-    <ion-title>Detalles</ion-title>
+    <ion-title class="header-title">Detalles del Grupo</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content>
 
-  <ion-list style="width: 100%;">
-    <ion-list-header>
-      <ion-label>
-        <h1 style="text-align: center; color: rgb(99, 98, 98);">Miembros del grupo</h1>
-      </ion-label>
-    </ion-list-header>
-    @defer(on timer(3000)){
-    @for(member of members$(); track member.id){
-    <ion-item style="width: 100%;">
-      <ion-card style="width: 100%;">
-        <ion-card-content>
-          <ion-row>
-            <ion-col size="4" style="display: flex; justify-content: center; align-items: center;">
-              <ion-avatar style="width: 60px; height: 60px;">
-                <ion-icon name="person-circle" style="font-size: 60px; color: rgb(150, 150, 150);"></ion-icon>
-              </ion-avatar>
-            </ion-col>
-            <ion-col size="8">
-              <h2 style="font-weight: 700;">{{ member.name }} {{ member.lastname }}</h2>
-              <ion-text color="medium">{{ member.identification }}</ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-    }
-    }
-    @placeholder{
-    <ion-item style="width: 100%;">
-      <ion-card style="width: 100%;">
-        <ion-card-content>
-          <ion-row>
-            <ion-col size="4" style="display: flex; justify-content: center; align-items: center;">
-              <ion-avatar style="width: 60px; height: 60px;">
-                <ion-skeleton-text animated style="width: 60px; height: 60px; border-radius: 50%;"></ion-skeleton-text>
-              </ion-avatar>
-            </ion-col>
-            <ion-col size="8">
-              <h2>
-                <ion-skeleton-text animated style="width: 80%; height: 20px;"></ion-skeleton-text>
-              </h2>
-              <ion-text color="medium">
-                <ion-skeleton-text animated style="width: 60%; height: 15px;"></ion-skeleton-text>
-              </ion-text>
-            </ion-col>
-          </ion-row>
-        </ion-card-content>
-      </ion-card>
-    </ion-item>
-    }
-    @error {
-    <ion-item style="width: 100%; text-align: center;">
-      <ion-text color="danger">Error al cargar los Miembros. Inténtalo de nuevo más tarde.</ion-text>
-    </ion-item>
-    }
-  </ion-list>
+<ion-content class="detail-content">
+  <div class="content-container">
+    <div class="welcome-section">
+      <ion-icon name="people-circle-outline" class="welcome-icon"></ion-icon>
+      <h2 class="welcome-title">Miembros del Grupo</h2>
+
+      @if (hasGroupInfo) {
+      <div class="group-info-section">
+        <div class="info-item">
+          <ion-icon name="people" class="info-icon group-icon"></ion-icon>
+          <span class="info-text group-name">{{ groupName }}</span>
+        </div>
+        <div class="info-item">
+          <ion-icon name="location-outline" class="info-icon location-icon"></ion-icon>
+          <span class="info-text location-name">{{ cityName }}</span>
+        </div>
+      </div>
+      }
 
 
-  <ion-fab-button color="secondary" style="position: fixed; bottom: 20px; right: 20px;" (click)="openFormularyModal()">
-    <ion-icon name="create-outline"></ion-icon>
-  </ion-fab-button>
+      <p class="welcome-subtitle">
+        Gestiona y visualiza todos los miembros asignados a este grupo
+      </p>
+    </div>
+    <div class="members-section">
+      <div class="section-header">
+        <ion-icon name="people-outline" class="section-icon"></ion-icon>
+        <h3 class="section-title">Lista de Miembros</h3>
+        <ion-badge class="members-count" color="secondary">
+          {{ members$().length }}
+        </ion-badge>
+      </div>
+
+      <div class="members-container">
+        @defer(on timer(3000)){
+        @for(member of members$(); track member.id){
+        <div class="member-card">
+          <div class="member-info">
+            <div class="member-header">
+              <div class="member-avatar">
+                <ion-icon name="person-circle-outline" class="member-icon"></ion-icon>
+              </div>
+              <div class="member-details">
+                <h4 class="member-name">{{ member.name }} {{ member.lastname }}</h4>
+                <p class="member-identification">
+                  <ion-icon name="card-outline" class="id-icon"></ion-icon>
+                  {{ member.identification }}
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="member-actions">
+            <ion-button fill="clear" size="small" class="action-button">
+              <ion-icon name="ellipsis-horizontal-outline" class="action-icon"></ion-icon>
+            </ion-button>
+          </div>
+        </div>
+        }
+        }
+        @placeholder{
+        <div class="member-card skeleton-card">
+          <div class="member-info">
+            <div class="member-header">
+              <div class="member-avatar">
+                <ion-skeleton-text animated class="skeleton-member-icon"></ion-skeleton-text>
+              </div>
+              <div class="member-details">
+                <ion-skeleton-text animated style="width: 80%; height: 20px; margin-bottom: 8px;"></ion-skeleton-text>
+                <ion-skeleton-text animated style="width: 60%; height: 16px;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+          <div class="member-actions">
+            <ion-skeleton-text animated style="width: 32px; height: 32px; border-radius: 50%;"></ion-skeleton-text>
+          </div>
+        </div>
+        }
+        @error {
+        <div class="error-card">
+          <ion-icon name="alert-circle-outline" class="error-icon"></ion-icon>
+          <p class="error-text">Error al cargar los miembros. Inténtalo de nuevo más tarde.</p>
+        </div>
+        }
+      </div>
+    </div>
+  </div>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-container">
+    <ion-fab-button color="secondary" class="add-member-fab" (click)="openFormularyModal()">
+      <ion-icon name="person-add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
