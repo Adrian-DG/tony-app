@@ -4,9 +4,12 @@ import { HomePage } from './home.page';
 
 const routes: Routes = [
 	{
-		path: '',
-		component: HomePage,
-		title: 'Inicio',
+		path: 'create-group',
+		loadComponent: () =>
+			import('./group-formulary/group-formulary.component').then(
+				(m) => m.GroupFormularyComponent,
+			),
+		title: 'Crear Grupo',
 	},
 	{
 		path: 'stats',
@@ -24,9 +27,15 @@ const routes: Routes = [
 		path: ':id/member-formulary',
 		loadComponent: () =>
 			import('./member-formulary/member-formulary.component').then(
-				(m) => m.MemberFormularyComponent
+				(m) => m.MemberFormularyComponent,
 			),
 		title: 'Formulario de Miembro',
+	},
+	{
+		path: '',
+		pathMatch: 'full',
+		component: HomePage,
+		title: 'Inicio',
 	},
 ];
 

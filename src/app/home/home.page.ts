@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { UserService } from '../core/services/user.service';
 import { IDecodedToken } from '../core/models/idecoded-token';
@@ -10,7 +10,7 @@ import { UserRole } from '../core/enums/user-role.enum';
 
 @Component({
 	selector: 'app-home',
-	imports: [IonicModule, CommonModule],
+	imports: [IonicModule, CommonModule, RouterModule],
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
 	providers: [UserService, GroupService],
@@ -21,13 +21,13 @@ export class HomePage implements OnInit, AfterViewInit {
 	constructor(
 		private $router: Router,
 		private userService: UserService,
-		private groupService: GroupService
+		private groupService: GroupService,
 	) {}
 
 	get userCanViewStats(): boolean {
 		const userRole = this.userData$()?.role || '';
 		return [UserRole.ADMIN, UserRole.SUPERVISOR].includes(
-			userRole as UserRole
+			userRole as UserRole,
 		);
 	}
 

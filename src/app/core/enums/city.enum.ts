@@ -1,0 +1,34 @@
+export enum CityEnum {
+	AZUA = 'AZUA', // Capital: Azua de Compostela
+	BAHORUCO = 'BAHORUCO', // Capital: Neiba
+	BARAHONA = 'BARAHONA',
+	DAJABON = 'DAJABON',
+	DISTRITO_NACIONAL = 'DISTRITO_NACIONAL', // Capital: Santo Domingo de Guzmán
+	DUARTE = 'DUARTE', // Capital: San Francisco de Macorís
+	EL_SEIBO = 'EL_SEIBO', // Capital: Santa Cruz de El Seibo
+	ELIAS_PIÑA = 'ELIAS_PIÑA', // Capital: Comendador
+	ESPAILLAT = 'ESPAILLAT', // Capital: Moca
+	HATO_MAYOR = 'HATO_MAYOR', // Capital: Hato Mayor del Rey
+	HERMANAS_MIRABAL = 'HERMANAS_MIRABAL', // Capital: Salcedo
+	INDEPENDENCIA = 'INDEPENDENCIA', // Capital: Jimaní
+	LA_ALTAGRACIA = 'LA_ALTAGRACIA', // Capital: Salvaleón de Higüey (Higüey)
+	LA_ROMANA = 'LA_ROMANA',
+	LA_VEGA = 'LA_VEGA', // Capital: Concepción de La Vega
+	MARIA_TRINIDAD_SANCHEZ = 'MARIA_TRINIDAD_SANCHEZ', // Capital: Nagua
+	MONSEÑOR_NOUEL = 'MONSEÑOR_NOUEL', // Capital: Bonao
+	MONTE_CRISTI = 'MONTE_CRISTI', // Capital: San Fernando de Monte Cristi
+	MONTE_PLATA = 'MONTE_PLATA',
+	PEDERNALES = 'PEDERNALES',
+	PERAVIA = 'PERAVIA', // Capital: Baní
+	PUERTO_PLATA = 'PUERTO_PLATA', // Capital: San Felipe de Puerto Plata
+	SAMANA = 'SAMANA', // Capital: Santa Bárbara de Samaná
+	SANCHEZ_RAMIREZ = 'SANCHEZ_RAMIREZ', // Capital: Cotuí
+	SAN_CRISTOBAL = 'SAN_CRISTOBAL',
+	SAN_JOSE_DE_OCOA = 'SAN_JOSE_DE_OCOA',
+	SAN_JUAN = 'SAN_JUAN', // Capital: San Juan de la Maguana
+	SAN_PEDRO_DE_MACORIS = 'SAN_PEDRO_DE_MACORIS',
+	SANTIAGO = 'SANTIAGO', // Capital: Santiago de los Caballeros
+	SANTIAGO_RODRIGUEZ = 'SANTIAGO_RODRIGUEZ', // Capital: San Ignacio de Sabaneta
+	SANTO_DOMINGO = 'SANTO_DOMINGO', // Capital: Santo Domingo Este
+	VALVERDE = 'VALVERDE', // Capital: Mao
+}

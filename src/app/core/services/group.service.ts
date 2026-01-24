@@ -3,6 +3,7 @@ import { GenericService } from './generic.service';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { IGroupListItemModel } from '../models/igroup-list-item.model';
 import { IFilterDto } from '../dto/ifilter.dto';
+import { ICreateGroupDto } from '../dto/group/icreate-group.dto';
 
 @Injectable({
 	providedIn: 'root',
@@ -21,5 +22,9 @@ export class GroupService extends GenericService {
 		return this.$http.get<IGroupListItemModel[]>(`${this.apiUrl}`, {
 			params,
 		});
+	}
+
+	createGroup(groupData: ICreateGroupDto) {
+		return this.$http.post(`${this.apiUrl}`, groupData);
 	}
 }
