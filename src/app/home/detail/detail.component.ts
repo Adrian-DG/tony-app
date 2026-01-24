@@ -58,4 +58,8 @@ export class DetailComponent implements OnInit {
 			relativeTo: this.activatedRoute.parent,
 		});
 	}
+
+	goBack() {
+		this.router.navigate(['home']);
+	}
 }
