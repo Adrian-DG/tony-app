@@ -3,7 +3,7 @@
 	height: 100%;
 }
 
-// Header Styles
+// Header & Content
 .header-toolbar {
 	--background: var(--ion-color-secondary);
 	--color: white;
@@ -14,7 +14,6 @@
 	font-size: 1.2rem;
 }
 
-// Content Styles
 .form-content {
 	--background: #f5f5f5;
 }
@@ -26,10 +25,9 @@
 	margin: 0 auto;
 }
 
-// Welcome Section
-.welcome-section {
-	text-align: center;
-	padding: 30px 20px 40px;
+// Card Sections
+.welcome-section,
+.enhanced-form {
 	background: white;
 	border-radius: 12px;
 	margin-bottom: 30px;
@@ -37,6 +35,16 @@
 	border: 1px solid rgba(150, 150, 150, 0.1);
 }
 
+.welcome-section {
+	text-align: center;
+	padding: 30px 20px 40px;
+}
+
+.enhanced-form {
+	padding: 30px 25px;
+}
+
+// Typography & Icons
 .welcome-icon {
 	font-size: 4rem;
 	color: var(--ion-color-secondary);
@@ -57,25 +65,12 @@
 	line-height: 1.4;
 }
 
-// Enhanced Form
-.enhanced-form {
-	background: white;
-	border-radius: 12px;
-	padding: 30px 25px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	border: 1px solid rgba(150, 150, 150, 0.1);
-}
-
+// Form Elements
 .form-fields {
 	display: flex;
 	flex-direction: column;
 	gap: 25px;
 	margin-bottom: 35px;
-}
-
-// Field Styling
-.field-container {
-	position: relative;
 }
 
 .custom-item {
@@ -136,45 +131,14 @@
 	margin-left: 8px;
 }
 
-// Error Messages
-.error-message {
-	display: flex;
-	align-items: center;
-	margin-top: 8px;
-	padding-left: 16px;
-	color: var(--ion-color-danger);
-	font-size: 0.85rem;
-	font-weight: 500;
-	gap: 6px;
-
-	ion-icon {
-		font-size: 1rem;
-		flex-shrink: 0;
-	}
-}
-
-.success-message {
-	display: flex;
-	align-items: center;
-	margin-top: 8px;
-	padding-left: 16px;
-	color: var(--ion-color-success);
-	font-size: 0.85rem;
-	font-weight: 500;
-	gap: 6px;
-
-	ion-icon {
-		font-size: 1rem;
-		flex-shrink: 0;
-	}
-}
-
+// Messages
+.error-message,
+.success-message,
 .validating-message {
 	display: flex;
 	align-items: center;
 	margin-top: 8px;
 	padding-left: 16px;
-	color: var(--ion-color-medium);
 	font-size: 0.85rem;
 	font-weight: 500;
 	gap: 6px;
@@ -185,7 +149,19 @@
 	}
 }
 
-// Button Styling
+.error-message {
+	color: var(--ion-color-danger);
+}
+
+.success-message {
+	color: var(--ion-color-success);
+}
+
+.validating-message {
+	color: var(--ion-color-medium);
+}
+
+// Buttons
 .button-container {
 	display: flex;
 	flex-direction: column;
@@ -195,7 +171,6 @@
 
 .create-button {
 	--background: var(--ion-color-secondary);
-	--background-hover: var(--ion-color-secondary-shade);
 	--color: white;
 	--border-radius: 12px;
 	height: 52px;
@@ -231,7 +206,7 @@
 	}
 }
 
-// Responsive Design
+// Responsive
 @media (max-width: 480px) {
 	.form-container {
 		padding: 15px;
@@ -245,10 +220,6 @@
 
 	.welcome-title {
 		font-size: 1.3rem;
-	}
-
-	.welcome-subtitle {
-		font-size: 0.9rem;
 	}
 
 	.enhanced-form {
@@ -271,42 +242,8 @@
 		margin-right: 10px;
 	}
 
-	.field-label {
-		font-size: 0.85rem !important;
-	}
-
-	.custom-input {
-		font-size: 0.95rem;
-	}
-
 	.create-button {
 		height: 48px;
 		font-size: 0.95rem;
 	}
-
-	.cancel-button {
-		height: 44px;
-		font-size: 0.9rem;
-	}
-}
-
-// Animation
-@keyframes slideInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.welcome-section {
-	animation: slideInUp 0.6s ease-out;
-}
-
-.enhanced-form {
-	animation: slideInUp 0.6s ease-out;
-	animation-delay: 0.1s;
 }

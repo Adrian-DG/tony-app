@@ -3,7 +3,7 @@
 	height: 100%;
 }
 
-// Header Styles - matching home page
+// Header & Content
 .header-toolbar {
 	--background: var(--ion-color-secondary);
 	--color: white;
@@ -23,19 +23,18 @@
 	}
 }
 
-// Content Styles
 .detail-content {
 	--background: #f5f5f5;
 }
 
 .content-container {
 	padding: 20px;
-	padding-bottom: 140px; // Space for FAB
+	padding-bottom: 140px;
 	max-width: 600px;
 	margin: 0 auto;
 }
 
-// Welcome Section - matching home page
+// Welcome Section
 .welcome-section {
 	text-align: center;
 	padding: 30px 20px 40px;
@@ -66,7 +65,7 @@
 	line-height: 1.4;
 }
 
-// Group Info Section - Enhanced styling
+// Group Info Cards
 .group-info-section {
 	display: flex;
 	gap: 15px;
@@ -100,6 +99,14 @@
 		transform: translateY(-3px);
 		box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
 		border-color: rgba(var(--ion-color-secondary-rgb), 0.2);
+
+		&::before {
+			height: 4px;
+		}
+
+		.info-icon-wrapper {
+			transform: scale(1.05);
+		}
 	}
 }
 
@@ -108,11 +115,8 @@
 		background: var(--ion-color-secondary);
 	}
 
-	&:hover {
-		&::before {
-			height: 4px;
-			box-shadow: 0 2px 6px rgba(var(--ion-color-secondary-rgb), 0.4);
-		}
+	&:hover .info-text {
+		color: var(--ion-color-secondary);
 	}
 }
 
@@ -121,11 +125,8 @@
 		background: var(--ion-color-tertiary);
 	}
 
-	&:hover {
-		&::before {
-			height: 4px;
-			box-shadow: 0 2px 6px rgba(var(--ion-color-tertiary-rgb), 0.4);
-		}
+	&:hover .info-text {
+		color: var(--ion-color-tertiary);
 	}
 }
 
@@ -149,21 +150,11 @@
 .group-wrapper {
 	background: rgba(var(--ion-color-secondary-rgb), 0.1);
 	border: 1px solid rgba(var(--ion-color-secondary-rgb), 0.2);
-
-	.info-card:hover & {
-		background: rgba(var(--ion-color-secondary-rgb), 0.15);
-		transform: scale(1.05);
-	}
 }
 
 .location-wrapper {
 	background: rgba(var(--ion-color-tertiary-rgb), 0.1);
 	border: 1px solid rgba(var(--ion-color-tertiary-rgb), 0.2);
-
-	.info-card:hover & {
-		background: rgba(var(--ion-color-tertiary-rgb), 0.15);
-		transform: scale(1.05);
-	}
 }
 
 .info-icon {
@@ -207,19 +198,7 @@
 	transition: color 0.3s ease;
 }
 
-.group-name {
-	.info-card:hover & {
-		color: var(--ion-color-secondary);
-	}
-}
-
-.location-name {
-	.info-card:hover & {
-		color: var(--ion-color-tertiary);
-	}
-}
-
-// Members Section - matching home page groups section
+// Members Section
 .members-section {
 	background: white;
 	border-radius: 12px;
@@ -262,7 +241,7 @@
 	gap: 15px;
 }
 
-// Member Cards - matching home page group cards
+// Member Cards
 .member-card {
 	background: rgb(246, 246, 248);
 	border-radius: 8px;
@@ -273,18 +252,10 @@
 	border: 1px solid rgba(150, 150, 150, 0.1);
 	transition: all 0.3s ease;
 
-	&:hover {
+	&:hover:not(.skeleton-card) {
 		transform: translateY(-2px);
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 		border-color: rgba(var(--ion-color-secondary-rgb), 0.3);
-	}
-
-	&.skeleton-card {
-		&:hover {
-			transform: none;
-			box-shadow: none;
-			border-color: rgba(150, 150, 150, 0.1);
-		}
 	}
 }
 
@@ -344,7 +315,7 @@
 	color: var(--ion-color-secondary);
 }
 
-// Member Actions
+// Actions & Error
 .member-actions {
 	margin-left: 15px;
 	flex-shrink: 0;
@@ -366,7 +337,6 @@
 	font-size: 1.2rem;
 }
 
-// Error Card - matching home page
 .error-card {
 	background: rgba(var(--ion-color-danger-rgb), 0.1);
 	border-radius: 8px;
@@ -387,27 +357,25 @@
 	font-weight: 500;
 }
 
-// FAB Styles - matching home page
+// FAB
 .fab-container {
 	z-index: 1000;
 	position: fixed;
 }
 
 .add-member-fab {
-	--box-shadow: 0 6px 20px rgba(var(--ion-color-secondary-rgb), 0.4);
 	transition: all 0.3s ease;
 
 	&:hover {
-		--box-shadow: 0 8px 25px rgba(var(--ion-color-secondary-rgb), 0.6);
 		transform: scale(1.05);
 	}
 }
 
-// Responsive Design
+// Responsive
 @media (max-width: 480px) {
 	.content-container {
 		padding: 15px;
-		padding-bottom: 120px; // Space for FAB on mobile
+		padding-bottom: 120px;
 	}
 
 	.welcome-section {
@@ -419,11 +387,6 @@
 		font-size: 1.3rem;
 	}
 
-	.welcome-subtitle {
-		font-size: 0.9rem;
-	}
-
-	// Group Info Responsive
 	.group-info-section {
 		flex-direction: column;
 		gap: 12px;
@@ -444,71 +407,7 @@
 		font-size: 1.3rem;
 	}
 
-	.info-label {
-		font-size: 0.7rem;
-	}
-
-	.info-text {
-		font-size: 0.95rem;
-	}
-
 	.member-identification {
 		font-size: 0.85rem;
-	}
-}
-
-// Animations - matching home page
-@keyframes slideInUp {
-	from {
-		opacity: 0;
-		transform: translateY(30px);
-	}
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
-
-.welcome-section {
-	animation: slideInUp 0.6s ease-out;
-}
-
-.group-info-section {
-	animation: slideInUp 0.6s ease-out;
-	animation-delay: 0.05s;
-
-	.info-card:nth-child(1) {
-		animation: slideInUp 0.5s ease-out;
-		animation-delay: 0.1s;
-	}
-
-	.info-card:nth-child(2) {
-		animation: slideInUp 0.5s ease-out;
-		animation-delay: 0.2s;
-	}
-}
-
-.members-section {
-	animation: slideInUp 0.6s ease-out;
-	animation-delay: 0.3s;
-}
-
-.member-card {
-	animation: slideInUp 0.4s ease-out;
-
-	&:nth-child(1) {
-		animation-delay: 0.1s;
-	}
-	&:nth-child(2) {
-		animation-delay: 0.2s;
-	}
-	&:nth-child(3) {
-		animation-delay: 0.3s;
-	}
-	&:nth-child(4) {
-		animation-delay: 0.4s;
-	}
-	&:nth-child(5) {
-		animation-delay: 0.5s;
 	}
 }
