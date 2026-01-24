@@ -3,8 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
+<<<<<<< HEAD
 	api_url: 'https://tony-app-api.onrender.com',
+=======
+>>>>>>> master
 	production: false,
+	api_url: 'http://localhost:3000',
 };
 
 /*
@@ -15,3 +19,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+// Zone JS is required by default for Angular itself.

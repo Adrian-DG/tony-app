@@ -1,0 +1,249 @@
+:host {
+	display: block;
+	height: 100%;
+}
+
+// Header Styles
+.header-toolbar {
+	--background: var(--ion-color-secondary);
+	--color: white;
+}
+
+.header-title {
+	font-weight: 600;
+	font-size: 1.2rem;
+}
+
+// Content Styles
+.form-content {
+	--background: #f5f5f5;
+}
+
+.form-container {
+	padding: 20px;
+	max-width: 500px;
+	margin: 0 auto;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+// Welcome Section
+.welcome-section {
+	text-align: center;
+	padding: 30px 20px 40px;
+	background: white;
+	border-radius: 12px;
+	margin-bottom: 30px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(150, 150, 150, 0.1);
+}
+
+.welcome-icon {
+	font-size: 4rem;
+	color: var(--ion-color-secondary);
+	margin-bottom: 15px;
+}
+
+.welcome-title {
+	color: rgb(83, 83, 83);
+	font-size: 1.5rem;
+	font-weight: 700;
+	margin: 0 0 10px 0;
+}
+
+.welcome-subtitle {
+	color: rgb(150, 150, 150);
+	font-size: 1rem;
+	margin: 0;
+	line-height: 1.4;
+}
+
+// Enhanced Form
+.enhanced-form {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+.form-fields {
+	background: rgb(246, 246, 248);
+	border-radius: 12px;
+	padding: 25px 20px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	border: 1px solid rgba(150, 150, 150, 0.1);
+	margin-bottom: 30px;
+}
+
+// Field Containers
+.field-container {
+	margin-bottom: 25px;
+
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+// Custom Item Styles
+.custom-item {
+	--background: white;
+	--border-radius: 8px;
+	--padding: 16px;
+	border: 1px solid rgba(150, 150, 150, 0.2);
+	border-radius: 8px;
+	margin-bottom: 8px;
+	transition: all 0.3s ease;
+
+	&:hover {
+		--border-color: rgba(150, 150, 150, 0.4);
+		transform: translateY(-1px);
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+	}
+
+	&.item-has-focus {
+		--border-color: var(--ion-color-secondary);
+		box-shadow: 0 0 0 2px rgba(var(--ion-color-secondary-rgb), 0.2);
+	}
+
+	&.error {
+		--border-color: var(--ion-color-danger);
+		--background: rgba(var(--ion-color-danger-rgb), 0.05);
+
+		.field-icon {
+			color: var(--ion-color-danger);
+		}
+
+		.field-icon {
+			color: var(--ion-color-secondary);
+			font-size: 1.2rem;
+			margin-right: 12px;
+			transition: color 0.3s ease;
+		}
+
+		.field-label {
+			font-weight: 600;
+			color: rgb(83, 83, 83);
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 0.5px;
+		}
+
+		.custom-input {
+			--color: rgb(83, 83, 83);
+			--placeholder-color: rgb(150, 150, 150);
+			font-size: 1rem;
+			font-weight: 500;
+		}
+
+		// Error Message Styles
+		.error-message {
+			display: flex;
+			align-items: center;
+			color: var(--ion-color-danger);
+			font-size: 0.85rem;
+			font-weight: 500;
+			margin-top: 8px;
+			padding: 8px 12px;
+			background: rgba(var(--ion-color-danger-rgb), 0.1);
+			border-radius: 8px;
+			border-left: 3px solid var(--ion-color-danger);
+		}
+	}
+
+	// Button Styles
+	.button-container {
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		flex: 1;
+		--background: var(--ion-color-secondary);
+		--color: white;
+		--border-radius: 8px;
+		--box-shadow: 0 2px 8px rgba(var(--ion-color-secondary-rgb), 0.3);
+		font-weight: 600;
+		letter-spacing: 0.5px;
+		text-transform: uppercase;
+		margin-bottom: 15px;
+		transition: all 0.3s ease;
+
+		&:hover:not(.button-disabled) {
+			transform: translateY(-1px);
+			--box-shadow: 0 4px 12px rgba(var(--ion-color-secondary-rgb), 0.4);
+		}
+
+		&.button-disabled {
+			--background: rgba(150, 150, 150, 0.3);
+			--color: rgb(150, 150, 150);
+			--box-shadow: none;
+		}
+	}
+
+	.cancel-button {
+		--color: rgb(150, 150, 150);
+		--border-radius: 8px;
+		font-weight: 500;
+		transition: all 0.3s ease;
+
+		&:hover {
+			--color: rgb(83, 83, 83);
+			--background: rgba(150, 150, 150, 0.1);
+		}
+
+		// Responsive Design
+		@media (max-width: 480px) {
+			.form-container {
+				padding: 15px;
+			}
+
+			.welcome-section {
+				padding: 20px 15px 25px;
+				margin-bottom: 20px;
+			}
+
+			.welcome-title {
+				font-size: 1.3rem;
+			}
+
+			.welcome-subtitle {
+				font-size: 0.9rem;
+			}
+
+			.form-fields {
+				padding: 20px 15px;
+				margin-bottom: 20px;
+			}
+
+			.button-container {
+				padding: 15px;
+			}
+		}
+
+		// Animation for form entrance
+		@keyframes slideInUp {
+			from {
+				opacity: 0;
+				transform: translateY(30px);
+			}
+			to {
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+
+		.welcome-section,
+		.form-fields,
+		.button-container {
+			animation: slideInUp 0.6s ease-out;
+		}
+
+		.form-fields {
+			animation-delay: 0.1s;
+		}
+
+		.button-container {
+			animation-delay: 0.2s;
+		}
+	}
+}

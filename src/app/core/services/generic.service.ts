@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { environment as DEV } from 'src/environments/environment';
-import { environment as PROD } from 'src/environments/environment.prod';
+import { environment as prod } from '../../../environments/environment.prod';
+import { environment as dev } from '../../../environments/environment';
 
 @Injectable({
 	providedIn: 'root',
@@ -10,7 +10,7 @@ export abstract class GenericService {
 	protected readonly apiUrl!: string;
 	constructor(protected $http: HttpClient) {
 		this.apiUrl = `${
-			isDevMode() ? DEV.api_url : PROD.api_url
+			isDevMode() ? dev.api_url : prod.api_url
 		}/${this.getResourceUrl()}`;
 	}
 

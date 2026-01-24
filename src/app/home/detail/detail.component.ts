@@ -14,21 +14,35 @@ import { MemberFormularyComponent } from '../member-formulary/member-formulary.c
 })
 export class DetailComponent implements OnInit {
 	groupId!: number;
+	groupName: string = '';
+	cityName: string = '';
 	members$ = signal<IMemberListItemModel[]>([]);
 
 	constructor(
 		private activatedRoute: ActivatedRoute,
 		private router: Router,
-		private memberService: MemberService
+		private memberService: MemberService,
 	) {}
 
 	ngOnInit() {
 		this.groupId = parseInt(
-			this.activatedRoute.snapshot.paramMap.get('id')!
+			this.activatedRoute.snapshot.paramMap.get('id')!,
 		);
+
+		const state = this.router.currentNavigation()?.extras.state;
+
+		if (state) {
+			this.groupName = state['group_name'] || 'Detalles del Grupo';
+			this.cityName = state['city_name'] || '';
+		}
+
 		if (!isNaN(this.groupId)) {
 			this.getMembers();
 		}
+	}
+
+	get hasGroupInfo(): boolean {
+		return this.groupName !== '' || this.cityName !== '';
 	}
 
 	getMembers() {
@@ -43,5 +57,9 @@ export class DetailComponent implements OnInit {
 		this.router.navigate(['home', this.groupId, 'member-formulary'], {
 			relativeTo: this.activatedRoute.parent,
 		});
+	}
+
+	goBack() {
+		this.router.navigate(['home']);
 	}
 }

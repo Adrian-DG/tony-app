@@ -4,9 +4,12 @@ import { HomePage } from './home.page';
 
 const routes: Routes = [
 	{
-		path: '',
-		component: HomePage,
-		title: 'Inicio',
+		path: 'users',
+		loadComponent: () =>
+			import('./user-group-form/user-group-form.component').then(
+				(m) => m.UserGroupFormComponent,
+			),
+		title: 'Gestión de Usuarios',
 	},
 	{
 		path: 'stats',
@@ -19,14 +22,21 @@ const routes: Routes = [
 		loadComponent: () =>
 			import('./detail/detail.component').then((m) => m.DetailComponent),
 		title: 'Detalles del Grupo',
+		data: { group_name: '', city_name: '' },
 	},
 	{
 		path: ':id/member-formulary',
 		loadComponent: () =>
 			import('./member-formulary/member-formulary.component').then(
-				(m) => m.MemberFormularyComponent
+				(m) => m.MemberFormularyComponent,
 			),
 		title: 'Formulario de Miembro',
+	},
+	{
+		path: '',
+		pathMatch: 'full',
+		component: HomePage,
+		title: 'Inicio',
 	},
 ];
 
