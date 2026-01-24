@@ -1,6 +1,11 @@
 <ion-header class="ion-no-border">
   <ion-toolbar color="secondary" class="header-toolbar">
     <ion-title class="header-title">Inicio</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="settings-button">
+        <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -98,15 +103,15 @@
   </div>
 
   <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="fab-container" style="bottom: 80px;">
-    <ion-fab-button color="secondary" class="main-fab">
+    <ion-fab-button color="primary" class="main-fab">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="tertiary" class="sub-fab">
-        <ion-icon name="person-add" (click)="onCreateUser()"></ion-icon>
+      <ion-fab-button color="success" class="sub-fab" (click)="onCreateUser()" [title]="'Grupo'">
+        <ion-icon name="person-add"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="warning" class="sub-fab">
-        <ion-icon name="create-outline" (click)="onCreateGroup()"></ion-icon>
+      <ion-fab-button color="primary" class="sub-fab" (click)="onCreateGroup()" [title]="'Usuario'">
+        <ion-icon name="people"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
   </ion-fab>

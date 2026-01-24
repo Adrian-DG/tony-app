@@ -25,7 +25,7 @@ export class UserService extends GenericService {
 		protected override $http: HttpClient,
 		private $router: Router,
 		private readonly _storage: StorageService,
-		private readonly jwtHelper: JwtHelperService
+		private readonly jwtHelper: JwtHelperService,
 	) {
 		super($http);
 	}
@@ -34,7 +34,7 @@ export class UserService extends GenericService {
 		const token = await this._storage.getItem('access_token');
 		if (!token) return null;
 		const decodedToken = this.jwtHelper.decodeToken(
-			token
+			token,
 		) as unknown as IDecodedToken;
 		console.log('Decoded Token:', decodedToken);
 		return decodedToken;
