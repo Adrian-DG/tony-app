@@ -4,12 +4,12 @@ import { HomePage } from './home.page';
 
 const routes: Routes = [
 	{
-		path: 'create-group',
+		path: 'users',
 		loadComponent: () =>
-			import('./group-formulary/group-formulary.component').then(
-				(m) => m.GroupFormularyComponent,
+			import('./user-group-form/user-group-form.component').then(
+				(m) => m.UserGroupFormComponent,
 			),
-		title: 'Crear Grupo',
+		title: 'Gestión de Usuarios',
 	},
 	{
 		path: 'stats',

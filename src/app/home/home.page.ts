@@ -77,4 +77,8 @@ export class HomePage implements OnInit, AfterViewInit {
 
 		await modal.present();
 	}
+
+	goToUsersManagement() {
+		this.$router.navigate(['home', 'users']);
+	}
 }

@@ -2,11 +2,12 @@ import { computed, Injectable, signal } from '@angular/core';
 import { GenericService } from './generic.service';
 import { IRegisterUserDTO } from '../dto/user/iregister-user.dto';
 import { ILoginUserDTO } from '../dto/user/ilogin-user.dto';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { IDecodedToken } from '../models/idecoded-token';
 import { StorageService } from './storage.service';
+import { IUserAssignGroupModel } from '../models/iuser-assign-group.model';
 
 @Injectable({
 	providedIn: 'root',
@@ -57,5 +58,15 @@ export class UserService extends GenericService {
 	async redirectToLogin() {
 		await this._storage.removeItem('access_token');
 		this.$router.navigate(['login']);
+	}
+
+	findUserWithAssignedGroups(param: string) {
+		const params = new HttpParams().set('param', param);
+		return this.$http.get<IUserAssignGroupModel>(
+			`${this.apiUrl}/with-groups`,
+			{
+				params,
+			},
+		);
 	}
 }
