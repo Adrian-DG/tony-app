@@ -66,8 +66,8 @@ import { SelectableGroupListComponent } from '../components/selectable-group-lis
 									class="custom-input"
 									type="text"
 									[class.error]="
-										userFilterControl?.invalid &&
-										userFilterControl?.touched
+										userFilterControl.invalid &&
+										userFilterControl.touched
 									"
 								>
 								</ion-input>
@@ -75,8 +75,8 @@ import { SelectableGroupListComponent } from '../components/selectable-group-lis
 							<div
 								class="error-message"
 								*ngIf="
-									userFilterControl?.invalid &&
-									userFilterControl?.touched
+									userFilterControl.invalid &&
+									userFilterControl.touched
 								"
 							>
 								<ion-icon
