@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import {
@@ -18,6 +18,7 @@ import { Storage } from '@ionic/storage-angular';
 import { jwtInterceptor } from './core/interceptors/jwt.interceptor';
 import { Drivers } from '@ionic/storage';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 // Factory function to retrieve the token from storage
 export function jwtOptionsFactory(storage: Storage) {
@@ -51,6 +52,12 @@ export function jwtOptionsFactory(storage: Storage) {
 				deps: [Storage],
 			},
 		}),
+  ServiceWorkerModule.register('ngsw-worker.js', {
+    enabled: !isDevMode(),
+    // Register the ServiceWorker as soon as the application is stable
+    // or after 30 seconds (whichever comes first).
+    registrationStrategy: 'registerWhenStable:30000'
+  }),
 	],
 	providers: [
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
