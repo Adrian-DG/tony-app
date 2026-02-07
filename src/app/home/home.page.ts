@@ -5,14 +5,14 @@ import { UserService } from '../core/services/user.service';
 import { IDecodedToken } from '../core/models/idecoded-token';
 import { GroupService } from '../core/services/group.service';
 import { IGroupListItemModel } from '../core/models/igroup-list-item.model';
-import { CommonModule } from '@angular/common';
+
 import { UserRole } from '../core/enums/user-role.enum';
 import { GroupFormularyComponent } from './group-formulary/group-formulary.component';
 import { UserFormularyComponent } from './user-formulary/user-formulary.component';
 
 @Component({
 	selector: 'app-home',
-	imports: [IonicModule, CommonModule, RouterModule],
+	imports: [IonicModule, RouterModule],
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
 	providers: [UserService, GroupService],
