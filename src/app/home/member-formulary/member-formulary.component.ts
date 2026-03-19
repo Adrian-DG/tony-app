@@ -20,10 +20,9 @@ import { MemberService } from 'src/app/core/services/member.service';
 		<ion-header class="ion-no-border">
 			<ion-toolbar color="secondary" class="header-toolbar">
 				<ion-buttons slot="start">
-					<ion-back-button
-						class="back-button"
-						(click)="goBack()"
-					></ion-back-button>
+					<ion-button fill="clear" (click)="goBack()">
+						<ion-icon name="arrow-back"></ion-icon>
+					</ion-button>
 				</ion-buttons>
 				<ion-title class="header-title"
 					>Afiliar Nuevo Miembro</ion-title
@@ -40,7 +39,7 @@ import { MemberService } from 'src/app/core/services/member.service';
 					></ion-icon>
 					<h2 class="welcome-title">Afiliar Miembro</h2>
 					<p class="welcome-subtitle">
-						Agrega un nuevo miembro al grupo de manera eficiente
+						Agrega un nuevo miembro a este grupo
 					</p>
 				</div>
 
