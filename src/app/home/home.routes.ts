@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { HomePage } from './home.page';
+import { preventAuthenticatedLeaveHomeGuard } from '../core/guards/prevent-authenticated-leave-home.guard';
 
 export const homeRoutes: Routes = [
 	{
@@ -35,6 +36,7 @@ export const homeRoutes: Routes = [
 		path: '',
 		pathMatch: 'full',
 		loadComponent: () => import('./home.page').then((m) => m.HomePage),
+		canDeactivate: [preventAuthenticatedLeaveHomeGuard],
 		title: 'Inicio',
 	},
 ];
