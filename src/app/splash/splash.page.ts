@@ -4,6 +4,7 @@ import { IonicModule } from '@ionic/angular';
 
 @Component({
 	selector: 'app-splash',
+	standalone: true,
 	imports: [IonicModule, RouterModule],
 	templateUrl: './splash.page.html',
 	styleUrls: ['./splash.page.scss'],

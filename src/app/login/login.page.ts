@@ -23,9 +23,11 @@ import { map, switchMap, catchError } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
+	standalone: true,
 	imports: [IonicModule, ReactiveFormsModule],
 	templateUrl: './login.page.html',
 	styleUrls: ['./login.page.scss'],
+	providers: [UserService],
 })
 export class LoginPage implements OnInit {
 	loginForm: FormGroup;
@@ -95,7 +97,7 @@ export class LoginPage implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
-		private router: Router
+		private router: Router,
 	) {
 		this.loginForm = this.fb.group({
 			identification: [

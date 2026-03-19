@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 import { HomePage } from './home.page';
 
-const routes: Routes = [
+export const homeRoutes: Routes = [
 	{
 		path: 'users',
 		loadComponent: () =>
@@ -18,13 +17,6 @@ const routes: Routes = [
 		title: 'Estadísticas',
 	},
 	{
-		path: ':id',
-		loadComponent: () =>
-			import('./detail/detail.component').then((m) => m.DetailComponent),
-		title: 'Detalles del Grupo',
-		data: { group_name: '', city_name: '' },
-	},
-	{
 		path: ':id/member-formulary',
 		loadComponent: () =>
 			import('./member-formulary/member-formulary.component').then(
@@ -33,15 +25,16 @@ const routes: Routes = [
 		title: 'Formulario de Miembro',
 	},
 	{
+		path: ':id',
+		loadComponent: () =>
+			import('./detail/detail.component').then((m) => m.DetailComponent),
+		title: 'Detalles del Grupo',
+		data: { group_name: '', city_name: '' },
+	},
+	{
 		path: '',
 		pathMatch: 'full',
-		component: HomePage,
+		loadComponent: () => import('./home.page').then((m) => m.HomePage),
 		title: 'Inicio',
 	},
 ];
-
-@NgModule({
-	imports: [RouterModule.forChild(routes)],
-	exports: [RouterModule],
-})
-export class HomePageRoutingModule {}

@@ -6,6 +6,7 @@ export const authenticationGuard: CanActivateFn = async () => {
 	const authService = inject(UserService);
 	const isAuthenticated = await authService.isAuthenticated$();
 	if (!isAuthenticated) {
+		console.warn('User not authenticated, redirecting to login');
 		authService.redirectToLogin();
 		return false;
 	}

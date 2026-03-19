@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './core/services/user.service';
-import { Router } from '@angular/router';
-import { AlertController, Platform } from '@ionic/angular';
+import { Router, RouterModule } from '@angular/router';
+import { AlertController, IonicModule, Platform } from '@ionic/angular';
 
 interface BeforeInstallPromptEvent extends Event {
 	prompt(): Promise<void>;
@@ -10,10 +10,10 @@ interface BeforeInstallPromptEvent extends Event {
 
 @Component({
 	selector: 'app-root',
+	standalone: true,
+	imports: [IonicModule, RouterModule],
 	templateUrl: 'app.component.html',
 	styleUrls: ['app.component.scss'],
-	standalone: false,
-	providers: [UserService],
 })
 export class AppComponent implements OnInit {
 	private deferredPrompt: BeforeInstallPromptEvent | null = null;

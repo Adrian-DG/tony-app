@@ -12,6 +12,7 @@ import { UserFormularyComponent } from './user-formulary/user-formulary.componen
 
 @Component({
 	selector: 'app-home',
+	standalone: true,
 	imports: [IonicModule, RouterModule],
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
@@ -20,6 +21,7 @@ import { UserFormularyComponent } from './user-formulary/user-formulary.componen
 export class HomePage implements OnInit, AfterViewInit {
 	userData$ = signal<IDecodedToken | null>(null);
 	groups$ = signal<IGroupListItemModel[]>([]);
+
 	constructor(
 		private $router: Router,
 		private userService: UserService,
