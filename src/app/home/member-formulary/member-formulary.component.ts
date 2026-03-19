@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonicModule, ModalController } from '@ionic/angular';
-import { CommonModule } from '@angular/common';
+
 import { IonInputCustomEvent, InputInputEventDetail } from '@ionic/core';
 import { debounceTime, distinctUntilChanged, switchMap, map } from 'rxjs';
 import { ICreateMemberGroupDto } from 'src/app/core/dto/member/icreate-member-group.dto';
@@ -15,74 +15,74 @@ import { MemberService } from 'src/app/core/services/member.service';
 
 @Component({
 	selector: 'app-member-formulary',
-	imports: [IonicModule, ReactiveFormsModule, CommonModule],
+	imports: [IonicModule, ReactiveFormsModule],
 	template: `
 		<ion-header class="ion-no-border">
-			<ion-toolbar class="header-toolbar">
-				<ion-buttons slot="start">
-					<ion-button fill="clear" (click)="goBack()">
-						<ion-icon name="arrow-back"></ion-icon>
-					</ion-button>
-				</ion-buttons>
-				<ion-title class="header-title"
-					>Afiliar Nuevo Miembro</ion-title
-				>
-			</ion-toolbar>
-		</ion-header>
-
-		<ion-content class="form-content">
-			<div class="form-container">
-				<div class="welcome-section">
-					<ion-icon
-						name="person-add-outline"
-						class="welcome-icon"
-					></ion-icon>
-					<h2 class="welcome-title">Afiliar Miembro</h2>
-					<p class="welcome-subtitle">
-						Agrega un nuevo miembro al grupo de manera eficiente
-					</p>
-				</div>
-
-				<form [formGroup]="memberForm" class="enhanced-form">
-					<div class="form-fields">
-						<div class="field-container">
-							<ion-item class="custom-item" lines="none">
-								<ion-icon
-									name="card-outline"
-									slot="start"
-									class="field-icon"
-								></ion-icon>
-								<ion-label
-									position="stacked"
-									class="field-label"
-									>Identificación</ion-label
-								>
-								<ion-input
-									formControlName="identification"
-									placeholder="Ingresa el número de identificación"
-									class="custom-input"
-									type="text"
-									maxlength="11"
+		  <ion-toolbar class="header-toolbar">
+		    <ion-buttons slot="start">
+		      <ion-button fill="clear" (click)="goBack()">
+		        <ion-icon name="arrow-back"></ion-icon>
+		      </ion-button>
+		    </ion-buttons>
+		    <ion-title class="header-title"
+		      >Afiliar Nuevo Miembro</ion-title
+		      >
+		    </ion-toolbar>
+		  </ion-header>
+		
+		  <ion-content class="form-content">
+		    <div class="form-container">
+		      <div class="welcome-section">
+		        <ion-icon
+		          name="person-add-outline"
+		          class="welcome-icon"
+		        ></ion-icon>
+		        <h2 class="welcome-title">Afiliar Miembro</h2>
+		        <p class="welcome-subtitle">
+		          Agrega un nuevo miembro al grupo de manera eficiente
+		        </p>
+		      </div>
+		
+		      <form [formGroup]="memberForm" class="enhanced-form">
+		        <div class="form-fields">
+		          <div class="field-container">
+		            <ion-item class="custom-item" lines="none">
+		              <ion-icon
+		                name="card-outline"
+		                slot="start"
+		                class="field-icon"
+		              ></ion-icon>
+		              <ion-label
+		                position="stacked"
+		                class="field-label"
+		                >Identificación</ion-label
+		                >
+		                <ion-input
+		                  formControlName="identification"
+		                  placeholder="Ingresa el número de identificación"
+		                  class="custom-input"
+		                  type="text"
+		                  maxlength="11"
 									[class.error]="
 										isFieldInvalid('identification') ||
 										identificationExists
 									"
-									[class.success]="isIdentificationValid()"
+		                  [class.success]="isIdentificationValid()"
 									(ionInput)="
 										onNumericInput($event, 'identification')
 									"
-								>
-								</ion-input>
-								<ion-icon
-									slot="end"
-									class="validation-icon"
-									*ngIf="
-										getFieldValidationIcon(
-											'identification'
-										) ||
-										isValidatingIdentification ||
-										identificationExists
-									"
+		                  >
+		                </ion-input>
+		                @if (
+		                  getFieldValidationIcon(
+		                  'identification'
+		                  ) ||
+		                  isValidatingIdentification ||
+		                  identificationExists
+		                  ) {
+		                  <ion-icon
+		                    slot="end"
+		                    class="validation-icon"
 									[name]="
 										isValidatingIdentification
 											? 'time-outline'
@@ -101,161 +101,170 @@ import { MemberService } from 'src/app/core/services/member.service';
 														'identification'
 													)
 									"
-								></ion-icon>
-							</ion-item>
-							<div
-								class="error-message"
-								*ngIf="
-									isFieldInvalid('identification') &&
-									!identificationExists
-								"
-							>
-								<ion-icon
-									name="alert-circle-outline"
-								></ion-icon>
-								<span>{{
-									getFieldErrorMessage('identification')
-								}}</span>
-							</div>
-							<div
-								class="error-message"
-								*ngIf="
-									identificationExists &&
-									!isValidatingIdentification
-								"
-							>
-								<ion-icon
-									name="close-circle-outline"
-								></ion-icon>
-								<span>{{
-									getIdentificationExistsMessage()
-								}}</span>
-							</div>
-							<div
-								class="success-message"
-								*ngIf="isIdentificationValid()"
-							>
-								<ion-icon
-									name="checkmark-circle-outline"
-								></ion-icon>
-								<span>Cédula disponible para registro</span>
-							</div>
-							<div
-								class="validating-message"
-								*ngIf="isValidatingIdentification"
-							>
-								<ion-icon name="time-outline"></ion-icon>
-								<span>Verificando cédula...</span>
-							</div>
-						</div>
-
-						<div class="field-container">
-							<ion-item class="custom-item" lines="none">
-								<ion-icon
-									name="person-outline"
-									slot="start"
-									class="field-icon"
-								></ion-icon>
-								<ion-label
-									position="stacked"
-									class="field-label"
-									>Nombre</ion-label
-								>
-								<ion-input
-									formControlName="name"
-									placeholder="Ingresa el nombre"
-									class="custom-input"
-									type="text"
-									[disabled]="isValidatingIdentification"
-									[class.error]="isFieldInvalid('name')"
-									[class.success]="isFieldAsyncValid('name')"
-								>
-								</ion-input>
-								<ion-icon
-									slot="end"
-									class="validation-icon"
-									*ngIf="getFieldValidationIcon('name')"
-									[name]="getFieldValidationIcon('name')"
-									[color]="getFieldValidationColor('name')"
-								></ion-icon>
-							</ion-item>
-							<div
-								class="error-message"
-								*ngIf="isFieldInvalid('name')"
-							>
-								<ion-icon
-									name="alert-circle-outline"
-								></ion-icon>
-								<span>{{ getFieldErrorMessage('name') }}</span>
-							</div>
-						</div>
-
-						<div class="field-container">
-							<ion-item class="custom-item" lines="none">
-								<ion-icon
-									name="person-outline"
-									slot="start"
-									class="field-icon"
-								></ion-icon>
-								<ion-label
-									position="stacked"
-									class="field-label"
-									>Apellido</ion-label
-								>
-								<ion-input
-									formControlName="last_name"
-									placeholder="Ingresa el apellido"
-									class="custom-input"
-									type="text"
-									[disabled]="isValidatingIdentification"
-									[class.error]="isFieldInvalid('last_name')"
+		                  ></ion-icon>
+		                }
+		              </ion-item>
+		              @if (
+		                isFieldInvalid('identification') &&
+		                !identificationExists
+		                ) {
+		                <div
+		                  class="error-message"
+		                  >
+		                  <ion-icon
+		                    name="alert-circle-outline"
+		                  ></ion-icon>
+		                  <span>{{
+		                    getFieldErrorMessage('identification')
+		                  }}</span>
+		                </div>
+		              }
+		              @if (
+		                identificationExists &&
+		                !isValidatingIdentification
+		                ) {
+		                <div
+		                  class="error-message"
+		                  >
+		                  <ion-icon
+		                    name="close-circle-outline"
+		                  ></ion-icon>
+		                  <span>{{
+		                    getIdentificationExistsMessage()
+		                  }}</span>
+		                </div>
+		              }
+		              @if (isIdentificationValid()) {
+		                <div
+		                  class="success-message"
+		                  >
+		                  <ion-icon
+		                    name="checkmark-circle-outline"
+		                  ></ion-icon>
+		                  <span>Cédula disponible para registro</span>
+		                </div>
+		              }
+		              @if (isValidatingIdentification) {
+		                <div
+		                  class="validating-message"
+		                  >
+		                  <ion-icon name="time-outline"></ion-icon>
+		                  <span>Verificando cédula...</span>
+		                </div>
+		              }
+		            </div>
+		
+		            <div class="field-container">
+		              <ion-item class="custom-item" lines="none">
+		                <ion-icon
+		                  name="person-outline"
+		                  slot="start"
+		                  class="field-icon"
+		                ></ion-icon>
+		                <ion-label
+		                  position="stacked"
+		                  class="field-label"
+		                  >Nombre</ion-label
+		                  >
+		                  <ion-input
+		                    formControlName="name"
+		                    placeholder="Ingresa el nombre"
+		                    class="custom-input"
+		                    type="text"
+		                    [disabled]="isValidatingIdentification"
+		                    [class.error]="isFieldInvalid('name')"
+		                    [class.success]="isFieldAsyncValid('name')"
+		                    >
+		                  </ion-input>
+		                  @if (getFieldValidationIcon('name')) {
+		                    <ion-icon
+		                      slot="end"
+		                      class="validation-icon"
+		                      [name]="getFieldValidationIcon('name')"
+		                      [color]="getFieldValidationColor('name')"
+		                    ></ion-icon>
+		                  }
+		                </ion-item>
+		                @if (isFieldInvalid('name')) {
+		                  <div
+		                    class="error-message"
+		                    >
+		                    <ion-icon
+		                      name="alert-circle-outline"
+		                    ></ion-icon>
+		                    <span>{{ getFieldErrorMessage('name') }}</span>
+		                  </div>
+		                }
+		              </div>
+		
+		              <div class="field-container">
+		                <ion-item class="custom-item" lines="none">
+		                  <ion-icon
+		                    name="person-outline"
+		                    slot="start"
+		                    class="field-icon"
+		                  ></ion-icon>
+		                  <ion-label
+		                    position="stacked"
+		                    class="field-label"
+		                    >Apellido</ion-label
+		                    >
+		                    <ion-input
+		                      formControlName="last_name"
+		                      placeholder="Ingresa el apellido"
+		                      class="custom-input"
+		                      type="text"
+		                      [disabled]="isValidatingIdentification"
+		                      [class.error]="isFieldInvalid('last_name')"
 									[class.success]="
 										isFieldAsyncValid('last_name')
 									"
-								>
-								</ion-input>
-								<ion-icon
-									slot="end"
-									class="validation-icon"
-									*ngIf="getFieldValidationIcon('last_name')"
-									[name]="getFieldValidationIcon('last_name')"
+		                      >
+		                    </ion-input>
+		                    @if (getFieldValidationIcon('last_name')) {
+		                      <ion-icon
+		                        slot="end"
+		                        class="validation-icon"
+		                        [name]="getFieldValidationIcon('last_name')"
 									[color]="
 										getFieldValidationColor('last_name')
 									"
-								></ion-icon>
-							</ion-item>
-							<div
-								class="error-message"
-								*ngIf="isFieldInvalid('last_name')"
-							>
-								<ion-icon
-									name="alert-circle-outline"
-								></ion-icon>
-								<span>{{
-									getFieldErrorMessage('last_name')
-								}}</span>
-							</div>
-						</div>
-
-						<div class="field-container">
-							<ion-item class="custom-item" lines="none">
-								<ion-icon
-									name="call-outline"
-									slot="start"
-									class="field-icon"
-								></ion-icon>
-								<ion-label
-									position="stacked"
-									class="field-label"
-									>Teléfono</ion-label
-								>
-								<ion-input
-									formControlName="phone_number"
-									placeholder="Ingresa el número de teléfono"
-									class="custom-input"
-									type="tel"
-									maxlength="10"
-									[disabled]="isValidatingIdentification"
+		                      ></ion-icon>
+		                    }
+		                  </ion-item>
+		                  @if (isFieldInvalid('last_name')) {
+		                    <div
+		                      class="error-message"
+		                      >
+		                      <ion-icon
+		                        name="alert-circle-outline"
+		                      ></ion-icon>
+		                      <span>{{
+		                        getFieldErrorMessage('last_name')
+		                      }}</span>
+		                    </div>
+		                  }
+		                </div>
+		
+		                <div class="field-container">
+		                  <ion-item class="custom-item" lines="none">
+		                    <ion-icon
+		                      name="call-outline"
+		                      slot="start"
+		                      class="field-icon"
+		                    ></ion-icon>
+		                    <ion-label
+		                      position="stacked"
+		                      class="field-label"
+		                      >Teléfono</ion-label
+		                      >
+		                      <ion-input
+		                        formControlName="phone_number"
+		                        placeholder="Ingresa el número de teléfono"
+		                        class="custom-input"
+		                        type="tel"
+		                        maxlength="10"
+		                        [disabled]="isValidatingIdentification"
 									[class.error]="
 										isFieldInvalid('phone_number')
 									"
@@ -265,69 +274,71 @@ import { MemberService } from 'src/app/core/services/member.service';
 									(ionInput)="
 										onNumericInput($event, 'phone_number')
 									"
-								>
-								</ion-input>
-								<ion-icon
-									slot="end"
-									class="validation-icon"
-									*ngIf="
-										getFieldValidationIcon('phone_number')
-									"
+		                        >
+		                      </ion-input>
+		                      @if (
+		                        getFieldValidationIcon('phone_number')
+		                        ) {
+		                        <ion-icon
+		                          slot="end"
+		                          class="validation-icon"
 									[name]="
 										getFieldValidationIcon('phone_number')
 									"
 									[color]="
 										getFieldValidationColor('phone_number')
 									"
-								></ion-icon>
-							</ion-item>
-							<div
-								class="error-message"
-								*ngIf="isFieldInvalid('phone_number')"
-							>
-								<ion-icon
-									name="alert-circle-outline"
-								></ion-icon>
-								<span>{{
-									getFieldErrorMessage('phone_number')
-								}}</span>
-							</div>
-						</div>
-					</div>
-
-					<div class="button-container">
-						<ion-button
+		                        ></ion-icon>
+		                      }
+		                    </ion-item>
+		                    @if (isFieldInvalid('phone_number')) {
+		                      <div
+		                        class="error-message"
+		                        >
+		                        <ion-icon
+		                          name="alert-circle-outline"
+		                        ></ion-icon>
+		                        <span>{{
+		                          getFieldErrorMessage('phone_number')
+		                        }}</span>
+		                      </div>
+		                    }
+		                  </div>
+		                </div>
+		
+		                <div class="button-container">
+		                  <ion-button
 							[disabled]="
 								!memberForm.valid ||
 								identificationExists ||
 								isValidatingIdentification
 							"
-							expand="block"
-							class="create-button"
-							size="large"
-							(click)="onConfirm()"
-						>
-							<ion-icon
-								name="checkmark-circle-outline"
-								slot="start"
-							></ion-icon>
-							Confirmar Afiliación
-						</ion-button>
-
-						<ion-button
-							fill="clear"
-							expand="block"
-							class="cancel-button"
-							size="large"
-							(click)="goBack()"
-						>
-							Cancelar
-						</ion-button>
-					</div>
-				</form>
-			</div>
-		</ion-content>
-	`,
+		                    expand="block"
+		                    class="create-button"
+		                    size="large"
+		                    (click)="onConfirm()"
+		                    >
+		                    <ion-icon
+		                      name="checkmark-circle-outline"
+		                      slot="start"
+		                    ></ion-icon>
+		                    Confirmar Afiliación
+		                  </ion-button>
+		
+		                  <ion-button
+		                    fill="clear"
+		                    expand="block"
+		                    class="cancel-button"
+		                    size="large"
+		                    (click)="goBack()"
+		                    >
+		                    Cancelar
+		                  </ion-button>
+		                </div>
+		              </form>
+		            </div>
+		          </ion-content>
+		`,
 	styleUrls: ['./member-formulary.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush,
 	providers: [MemberService],
