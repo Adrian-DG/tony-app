@@ -26,7 +26,7 @@ export class AppComponent implements OnInit {
 	) {}
 
 	async ngOnInit(): Promise<void> {
-		if (await this.userService.isAuthenticated$()) {
+		if (await this.userService.isAuthenticated()) {
 			this.router.navigate(['home']);
 		}
 

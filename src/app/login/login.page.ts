@@ -1,33 +1,21 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
 	FormBuilder,
 	FormGroup,
 	ReactiveFormsModule,
 	Validators,
-	AsyncValidatorFn,
-	AbstractControl,
-	ValidationErrors,
 } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
-import {
-	MaskitoOptions,
-	MaskitoElementPredicate,
-	maskitoTransform,
-} from '@maskito/core';
-import { MaskitoDirective } from '@maskito/angular';
 import { UserService } from '../core/services/user.service';
 import { ILoginUserDTO } from '../core/dto/user/ilogin-user.dto';
-import { Router } from '@angular/router';
-import { Observable, of, timer } from 'rxjs';
-import { map, switchMap, catchError } from 'rxjs/operators';
 
 @Component({
 	selector: 'app-login',
 	standalone: true,
-	imports: [IonicModule, ReactiveFormsModule],
+	imports: [CommonModule, IonicModule, ReactiveFormsModule],
 	templateUrl: './login.page.html',
 	styleUrls: ['./login.page.scss'],
-	providers: [UserService],
 })
 export class LoginPage implements OnInit {
 	loginForm: FormGroup;
@@ -97,7 +85,6 @@ export class LoginPage implements OnInit {
 	constructor(
 		private fb: FormBuilder,
 		private userService: UserService,
-		private router: Router,
 	) {
 		this.loginForm = this.fb.group({
 			identification: [

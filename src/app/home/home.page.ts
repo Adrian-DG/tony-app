@@ -85,4 +85,8 @@ export class HomePage implements OnInit, AfterViewInit {
 	goToUsersManagement() {
 		this.$router.navigate(['home', 'users']);
 	}
+
+	onLogout() {
+		this.userService.logout();
+	}
 }

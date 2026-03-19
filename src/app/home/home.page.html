@@ -10,13 +10,13 @@
           <ion-content>
             <ion-list lines="none">
               <ion-item-divider>
-                <ion-label>Acciones Disponibles</ion-label>
+                <ion-label>Acciones</ion-label>
               </ion-item-divider>
-              <ion-item button detail="false" (click)="goToUsersManagement()">
-                <ion-icon name="person-add-outline" slot="start" color="primary"></ion-icon>
+              <ion-item button detail="false" (click)="onLogout()" title="Cerrar Sesión">
+                <ion-icon name="log-out-outline"></ion-icon>
                 <ion-label>
-                  <h3>Asignar Usuario</h3>
-                  <p>Agregar usuario a un grupo</p>
+                  <h3>Cerrar Sesión</h3>
+                  <p>Salir de la aplicación</p>
                 </ion-label>
               </ion-item>
             </ion-list>
@@ -125,10 +125,13 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
+      <ion-fab-button color="dark" class="sub-fab" (click)="goToUsersManagement()" [title]="'Asignar Usuario'">
+        <ion-icon name="person-add-outline"></ion-icon>
+      </ion-fab-button>
       <ion-fab-button color="success" class="sub-fab" (click)="onCreateUser()" [title]="'Grupo'">
         <ion-icon name="person-add"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="primary" class="sub-fab" (click)="onCreateGroup()" [title]="'Usuario'">
+      <ion-fab-button color="warning" class="sub-fab" (click)="onCreateGroup()" [title]="'Usuario'">
         <ion-icon name="people"></ion-icon>
       </ion-fab-button>
     </ion-fab-list>
