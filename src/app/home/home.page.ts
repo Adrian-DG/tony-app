@@ -36,6 +36,23 @@ export class HomePage implements OnInit, AfterViewInit {
 		);
 	}
 
+	get userCanAssignUsers(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return [UserRole.ADMIN, UserRole.SUPERVISOR].includes(
+			userRole as UserRole,
+		);
+	}
+
+	get userCanManageUsers(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return userRole === UserRole.ADMIN;
+	}
+
+	get userCanManageGroups(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return userRole === UserRole.ADMIN;
+	}
+
 	async ngOnInit() {
 		this.userData$.set(await this.userService.getUserData());
 	}

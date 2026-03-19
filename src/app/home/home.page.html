@@ -125,15 +125,24 @@
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-list side="top">
-      <ion-fab-button color="dark" class="sub-fab" (click)="goToUsersManagement()" [title]="'Asignar Usuario'">
+      @if (userCanAssignUsers){
+      <ion-fab-button color="dark" class="sub-fab" (click)="goToUsersManagement()" [title]="'Asignar Usuario'"
+        aria-label="'Asignar Usuario'">
         <ion-icon name="person-add-outline"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="success" class="sub-fab" (click)="onCreateUser()" [title]="'Grupo'">
+      }
+      @if (userCanManageUsers){
+      <ion-fab-button color="success" class="sub-fab" (click)="onCreateUser()" [title]="'Grupo'"
+        aria-label="'Agregar Usuario'">
         <ion-icon name="person-add"></ion-icon>
       </ion-fab-button>
-      <ion-fab-button color="warning" class="sub-fab" (click)="onCreateGroup()" [title]="'Usuario'">
+      }
+      @if (userCanManageGroups){
+      <ion-fab-button color="warning" class="sub-fab" (click)="onCreateGroup()" [title]="'Usuario'"
+        aria-label="'Agregar Grupo'">
         <ion-icon name="people"></ion-icon>
       </ion-fab-button>
+      }
     </ion-fab-list>
   </ion-fab>
 
