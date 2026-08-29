@@ -1,11 +1,12 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
 import { UserService } from '../services/user.service';
 
 export const authenticationGuard: CanActivateFn = async () => {
 	const authService = inject(UserService);
-	const isAuthenticated = await authService.isAuthenticated$();
+	const isAuthenticated = await authService.isAuthenticated();
 	if (!isAuthenticated) {
+		console.warn('User not authenticated, redirecting to login');
 		authService.redirectToLogin();
 		return false;
 	}

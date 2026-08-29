@@ -5,14 +5,15 @@ import { UserService } from '../core/services/user.service';
 import { IDecodedToken } from '../core/models/idecoded-token';
 import { GroupService } from '../core/services/group.service';
 import { IGroupListItemModel } from '../core/models/igroup-list-item.model';
-import { CommonModule } from '@angular/common';
+
 import { UserRole } from '../core/enums/user-role.enum';
 import { GroupFormularyComponent } from './group-formulary/group-formulary.component';
 import { UserFormularyComponent } from './user-formulary/user-formulary.component';
 
 @Component({
 	selector: 'app-home',
-	imports: [IonicModule, CommonModule, RouterModule],
+	standalone: true,
+	imports: [IonicModule, RouterModule],
 	templateUrl: './home.page.html',
 	styleUrls: ['./home.page.scss'],
 	providers: [UserService, GroupService],
@@ -20,6 +21,7 @@ import { UserFormularyComponent } from './user-formulary/user-formulary.componen
 export class HomePage implements OnInit, AfterViewInit {
 	userData$ = signal<IDecodedToken | null>(null);
 	groups$ = signal<IGroupListItemModel[]>([]);
+
 	constructor(
 		private $router: Router,
 		private userService: UserService,
@@ -32,6 +34,23 @@ export class HomePage implements OnInit, AfterViewInit {
 		return [UserRole.ADMIN, UserRole.SUPERVISOR].includes(
 			userRole as UserRole,
 		);
+	}
+
+	get userCanAssignUsers(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return [UserRole.ADMIN, UserRole.SUPERVISOR].includes(
+			userRole as UserRole,
+		);
+	}
+
+	get userCanManageUsers(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return userRole === UserRole.ADMIN;
+	}
+
+	get userCanManageGroups(): boolean {
+		const userRole = this.userData$()?.role || '';
+		return userRole === UserRole.ADMIN;
 	}
 
 	async ngOnInit() {
@@ -82,5 +101,9 @@ export class HomePage implements OnInit, AfterViewInit {
 
 	goToUsersManagement() {
 		this.$router.navigate(['home', 'users']);
+	}
+
+	onLogout() {
+		this.userService.logout();
 	}
 }

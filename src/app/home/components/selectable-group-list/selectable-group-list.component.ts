@@ -5,7 +5,7 @@ import {
 	OnInit,
 	signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { AlertController, IonicModule, ModalController } from '@ionic/angular';
 import { IGroupListItemModel } from 'src/app/core/models/igroup-list-item.model';
@@ -13,7 +13,7 @@ import { GroupService } from 'src/app/core/services/group.service';
 
 @Component({
 	selector: 'app-selectable-group-list',
-	imports: [IonicModule, FormsModule, CommonModule],
+	imports: [IonicModule, FormsModule],
 	template: `
 		<ion-header class="ion-no-border">
 			<ion-toolbar class="header-toolbar">

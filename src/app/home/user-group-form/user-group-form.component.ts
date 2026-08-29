@@ -4,7 +4,7 @@ import {
 	OnInit,
 	signal,
 } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AlertController, IonicModule, ModalController } from '@ionic/angular';
@@ -17,10 +17,10 @@ import { SelectableGroupListComponent } from '../components/selectable-group-lis
 
 @Component({
 	selector: 'app-user-group-form.component',
-	imports: [IonicModule, ReactiveFormsModule, CommonModule],
+	imports: [IonicModule, ReactiveFormsModule],
 	template: `
 		<ion-header class="ion-no-border">
-			<ion-toolbar class="header-toolbar">
+			<ion-toolbar color="secondary" class="header-toolbar">
 				<ion-buttons slot="start">
 					<ion-button fill="clear" (click)="goBack()">
 						<ion-icon name="arrow-back"></ion-icon>
@@ -66,27 +66,26 @@ import { SelectableGroupListComponent } from '../components/selectable-group-lis
 									class="custom-input"
 									type="text"
 									[class.error]="
-										userFilterControl?.invalid &&
-										userFilterControl?.touched
+										userFilterControl.invalid &&
+										userFilterControl.touched
 									"
 								>
 								</ion-input>
 							</ion-item>
-							<div
-								class="error-message"
-								*ngIf="
-									userFilterControl?.invalid &&
-									userFilterControl?.touched
-								"
-							>
-								<ion-icon
-									name="alert-circle-outline"
-								></ion-icon>
-								<span
-									>Ingresa un documento válido (10-11
-									dígitos)</span
-								>
-							</div>
+							@if (
+								userFilterControl.invalid &&
+								userFilterControl.touched
+							) {
+								<div class="error-message">
+									<ion-icon
+										name="alert-circle-outline"
+									></ion-icon>
+									<span
+										>Ingresa un documento válido (10-11
+										dígitos)</span
+									>
+								</div>
+							}
 						</div>
 
 						<div class="button-container">
