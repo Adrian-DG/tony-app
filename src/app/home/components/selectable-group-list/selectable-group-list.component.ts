@@ -174,10 +174,10 @@ export class SelectableGroupListComponent implements OnInit {
 
 	getGroups(): void {
 		this.groupService.getAllGroups({}).subscribe({
-			next: (groups) => {
+			next: (groups: IGroupListItemModel[]) => {
 				this.groups$.set(groups);
 			},
-			error: async (error) => {
+			error: async (error: any) => {
 				console.error('Error fetching groups:', error);
 				const alert = await this._alertCtrl.create({
 					header: 'Error',
